@@ -10,4 +10,4 @@
 - 你想了解的都在这里
 
 [About me](https://wzjx.xyz)
-[开始阅读](#介绍指令笔记)
+[开始阅读](#New Command-Note)
