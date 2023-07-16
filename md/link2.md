@@ -3,3 +3,19 @@
 **粗体？**
 `这是代码！`
 > 我没有说过这句话
+```
+execute as @a run say 1
+```
+$$
+3+pi=4
+$$
+----------
+- first
+- second
+- third
+*asd*
+~~asdasdasdasds~~
+1. first
+2. second
+3. third
+###### 111
