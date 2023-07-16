@@ -5,23 +5,33 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>凛冬初十的个人主页</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <script src='js/main.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@1.9.1/dist/showdown.min.js"></script>
 </head>
 <body>
-    <ul>
-        <li style="--clr:#00ade1">
-            <a href="#" data-text="&nbsp;这里">&nbsp;这里&nbsp;</a>
-        <!-- </li> -->
-        <li style="--clr:#ff6493">
-            <a href="#" data-text="&nbsp;什么">&nbsp;什么&nbsp;</a>
-        </li>
-        <li style="--clr:#ffdd1c">
-            <a href="#" data-text="&nbsp;都没">&nbsp;都没&nbsp;</a>
-        </li>
-        <li style="--clr:#00dc82">
-            <a href="#" data-text="&nbsp;有哦">&nbsp;有哦&nbsp;</a>
-        </li>
-    </ul>
+    <div class="spec_hover">
+        <ul>
+            <li style="--clr:#00ade1">
+                <a href="#" data-text="&nbsp;这里" id="link1">&nbsp;这里&nbsp;</a>
+            </li>
+            <li style="--clr:#ff6493">
+                <a href="#" data-text="&nbsp;什么" id="link2">&nbsp;什么&nbsp;</a>
+            </li>
+            <li style="--clr:#ffdd1c">
+                <a href="#" data-text="&nbsp;都没" id="link3">&nbsp;都没&nbsp;</a>
+            </li>
+            <li style="--clr:#00dc82">
+                <a href="#" data-text="&nbsp;有哦" id="link4">&nbsp;有哦&nbsp;</a>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        <div id="articleContent">
+            <h2>这里的文章标题</h2>
+            <p>你好呀你好呀，这是一个测试网页</p>
+        </div>
+    </div>
+    <script src='js/main.js'></script>
 </body>
 </html>

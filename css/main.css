@@ -1,27 +1,23 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+.spec_hover {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: auto;
+    background-color: #202331;
+    border-right: 3px solid #fff; /* 添加右侧边框 */
 }
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #252839;
-}
-ul {
+.spec_hover ul {
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
-ul li {
+.spec_hover ul li {
     position: relative;
     list-style: none;
 }
-ul li a {
+.spec_hover ul li a {
     position: relative;
     font-size: 4em;
     text-decoration: none;
@@ -31,18 +27,20 @@ ul li a {
     color: transparent;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
 }
-ul li a::before {
+.spec_hover ul li a::before {
     content: attr(data-text);
     position: absolute;
     color: var(--clr);
     width: 0;
+    height: 100%;
     white-space:nowrap;
     overflow: hidden;
     transition: 1s;
     border-right: 8px solid var(--clr);
     -webkit-text-stroke: 1px var(--clr);
 }
-ul li a:hover::before {
+.spec_hover ul li a:hover::before {
     width: 100%;
+    height: 100%;
     filter: drop-shadow(0 0 25px var(--clr));
 }
