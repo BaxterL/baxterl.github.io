@@ -13,11 +13,11 @@ body {
 }
 .right-content {
     position: fixed;
-    left: 200px; /* 调整该值以适应侧边栏的宽度 */
+    left: 200px;
     top: 0;
     height: 100vh;
-    width: calc(100% - 200px); /* 调整该值以适应侧边栏的宽度 */
-    background-color: #252839; /* 设置与侧边栏相同的背景色 */
+    width: calc(100% - 200px);
+    background-color: #252839;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
