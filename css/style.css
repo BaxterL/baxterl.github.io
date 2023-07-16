@@ -11,3 +11,16 @@ body {
     font-size: 18px;
     --color-canvas-default: #252839;
 }
+.right-content {
+    position: fixed;
+    left: 200px;
+    top: 0;
+    height: 100vh;
+    width: calc(100% - 200px);
+    background-color: #252839;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    color: #fff;
+    font-size: 18px;
+}
