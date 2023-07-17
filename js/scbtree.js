@@ -39,7 +39,6 @@
         }
     
         const zzzFolder = zip.folder(`${folder}/zzz`);
-        zip.file(`${folder}/root.mcfunction`, `execute if score ${player} ${obj} matches 1..${max} run function ${funchead}tree0_0`);
         const zzzDoFolder = zzzFolder.folder("do");
     
         if (namespace !== "") {
@@ -73,6 +72,8 @@
                 }
             }
         }
+
+        zip.file(`${folder}/root.mcfunction`, `execute if score ${player} ${obj} matches 1..${max} run function ${funchead}tree0_0`);
     
         for (var score = 1; score <= max; score++) {
             var content = opera(score, obj, player, customContent);
