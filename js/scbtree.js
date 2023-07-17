@@ -19,7 +19,6 @@
     const customContent = customContentInput.value;
 
     const zip = new JSZip();
-
     function operaFunction(score, obj, player, customContent) {
         return customContent.replace('${player}', player)
                             .replace('${scoreboard}', obj)
