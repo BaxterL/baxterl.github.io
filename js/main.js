@@ -18,14 +18,10 @@ function loadMarkdownFile(filename) {
 
 link1.addEventListener("click", function (event) {
   event.preventDefault();
-  console.log("link1被点击了");
   loadMarkdownFile("link1.md");
-  console.log("articleContent的内容已更新");
 });
 
 link2.addEventListener("click", function (event) {
   event.preventDefault();
-  console.log("link2被点击了");
   loadMarkdownFile("link2.md");
-  console.log("articleContent的内容已更新");
 });

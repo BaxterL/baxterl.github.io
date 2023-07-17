@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>计分板树生成工具</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="css/scbtree.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>计分板树生成工具</h1>
+        <form id="form">
+            <div class="form-group">
+                <label for="maxScore">最大分数:</label>
+                <input type="number" id="maxScore" name="maxScore" required>
+            </div>
+            <div class="form-group">
+                <label for="branches">分支:</label>
+                <input type="number" id="branches" name="branches" required>
+            </div>
+            <div class="form-group">
+                <label for="directory">目录:</label>
+                <input type="text" id="directory" name="directory" required>
+            </div>
+            <div class="form-group">
+                <label for="namespace">命名空间:</label>
+                <input type="text" id="namespace" name="namespace" required>
+            </div>
+            <div class="form-group">
+                <label for="player">玩家:</label>
+                <input type="text" id="player" name="player" required>
+            </div>
+            <div class="form-group">
+                <label for="scoreboard">记分板:</label>
+                <input type="text" id="scoreboard" name="scoreboard" required>
+            </div>
+            <div class="form-group">
+                <label for="customContent">命令内容(支持变量${player} ${scoreboard} ${score}):</label>
+                <textarea id="customContent" name="customContent" required></textarea>
+            </div>
+            <button type="submit">生成</button>
+        </form>
+    </div>
+    <script src="js/jszip.js"></script>
+    <script src="js/scbtree.js"></script>
+</body>
+</html>
