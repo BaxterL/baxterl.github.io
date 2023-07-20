@@ -1,5 +1,6 @@
 var link1 = document.getElementById("link1");
 var link2 = document.getElementById("link2");
+var link3 = document.getElementById("link3");
 var articleContent = document.getElementById("articleContent");
 
 function loadMarkdownFile(filename) {
@@ -24,4 +25,9 @@ link1.addEventListener("click", function (event) {
 link2.addEventListener("click", function (event) {
   event.preventDefault();
   loadMarkdownFile("link2.md");
+});
+
+link3.addEventListener("click", function (event) {
+  event.preventDefault();
+  loadMarkdownFile("link3.md");
 });

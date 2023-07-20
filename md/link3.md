@@ -1,5 +1,5 @@
 # 命令宝典
-这是我收录的一些关于命令一些有用的链接
+这是我收录的一部分关于命令一些有用的链接
 ----------
 ## 有用脚本
 **1.19.3- 到 1.19.4+ 材质包兼容脚本** [点我跳转](https://github.com/Dominexis/Atlas-Logger)
@@ -28,8 +28,6 @@
 **字体艺术** [点我跳转](https://www.mcbbs.net/thread-835539-1-1.html)
 
 **去除文字阴影** [点我跳转](https://github.com/PuckiSilver/NoShadow)
-
-
 
 ## 命令基础
 
