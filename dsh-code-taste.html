@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code Taste · dsh-code-taste</title>
+  <meta name="description" content="让鲸鱼持续学习你的代码品味、审美风格和各种习惯。">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b10;
+      --panel: #0d141d;
+      --line: #22303f;
+      --text: #dbe7f5;
+      --muted: #7f8ea6;
+      --accent: #7ee0a8;
+      --warn: #f0b95c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 75% -10%, #12233c 0%, var(--bg) 60%);
+      color: var(--text);
+      font: 15px/1.75 "Cascadia Code", "JetBrains Mono", Consolas, "Microsoft YaHei", monospace;
+      min-height: 100vh;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 20px 72px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+    .back { color: var(--muted); text-decoration: none; font-size: 13px; letter-spacing: 1px; }
+    .back:hover { color: var(--accent); }
+    .lang { display: flex; gap: 6px; }
+    .lang button {
+      background: transparent; color: var(--muted); border: 1px solid var(--line);
+      border-radius: 6px; padding: 4px 10px; font: inherit; font-size: 12px; cursor: pointer;
+    }
+    .lang button[aria-pressed="true"] { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+    .banner { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 18px; }
+    h1 { font-size: 22px; margin: 28px 0 8px; letter-spacing: 1px; }
+    h1 span { color: var(--accent); }
+    p { margin: 0 0 14px; }
+    .lead { color: var(--text); }
+    .muted { color: var(--muted); }
+    ul { padding-left: 20px; margin: 0 0 18px; }
+    li { margin: 6px 0; }
+    li b { color: var(--accent); font-weight: 600; }
+    code, pre {
+      font-family: inherit;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    code { padding: 2px 6px; font-size: 13px; }
+    pre { padding: 14px 16px; overflow-x: auto; font-size: 13px; color: var(--text); }
+    pre .p { color: var(--accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 18px 0 24px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .card h3 { margin: 0 0 6px; font-size: 13px; letter-spacing: 1px; color: var(--warn); font-weight: 600; }
+    .card p { margin: 0; font-size: 13px; color: var(--muted); }
+    footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    a { color: var(--accent); }
+    [data-lang] { display: none; }
+    [data-lang].on { display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <a class="back" href="/">← baxterl.github.io</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="zh" aria-pressed="true">中文</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+
+    <img class="banner" src="assets/dsh-code-taste/banner.svg" alt="dsh-code-taste — the whale learns your coding taste">
+
+    <section data-lang="zh" class="on">
+      <h1>让鲸鱼持续学习你的<span>代码品味</span></h1>
+      <p class="lead">DeepSeek Harness 插件：从你的指令和纠正里提炼代码约定，存成可手改的规则，每个会话自动遵守。</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>从纠正里学</h3>
+          <p>“不要用 any”“记住用 const”——信号自动落成带置信度的条目。</p>
+        </div>
+        <div class="card">
+          <h3>看得见，改得动</h3>
+          <p>规则就是一份 markdown，随便改；低置信度的先待确认，不污染提示词。</p>
+        </div>
+        <div class="card">
+          <h3>每个会话生效</h3>
+          <p>会话开始时冻结注入，前缀缓存不抖；`taste why` 能看到每条规则的证据。</p>
+        </div>
+      </div>
+
+      <pre><span class="p">$</span> dsh plugin --profile desktop add github:BaxterL/dsh-code-taste</pre>
+      <p class="muted">v0.2.0 · MIT · 仓库：<a href="https://github.com/BaxterL/dsh-code-taste">BaxterL/dsh-code-taste</a></p>
+    </section>
+
+    <section data-lang="en">
+      <h1>Let the whale keep learning your <span>coding taste</span></h1>
+      <p class="lead">A DeepSeek Harness plugin: distils your instructions and corrections into editable rules, then follows them in every session.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Learns from corrections</h3>
+          <p>"Don't use any", "remember: const" — each signal becomes a confidence-scored entry.</p>
+        </div>
+        <div class="card">
+          <h3>Visible and editable</h3>
+          <p>Rules are one markdown file you can edit by hand; low-confidence ones wait for review.</p>
+        </div>
+        <div class="card">
+          <h3>Applies every session</h3>
+          <p>Frozen at session start so the prompt prefix stays stable; `taste why` shows the evidence.</p>
+        </div>
+      </div>
+
+      <pre><span class="p">$</span> dsh plugin --profile desktop add github:BaxterL/dsh-code-taste</pre>
+      <p class="muted">v0.2.0 · MIT · repo: <a href="https://github.com/BaxterL/dsh-code-taste">BaxterL/dsh-code-taste</a></p>
+    </section>
+
+    <footer>© 2026 BaxterL · built as a DeepSeek Harness bundle</footer>
+  </div>
+
+  <script>
+    (function () {
+      var KEY = 'dsh-code-taste-lang'
+      var saved = null
+      try { saved = localStorage.getItem(KEY) } catch (error) { saved = null }
+      function apply(lang) {
+        var isZh = lang !== 'en'
+        document.documentElement.lang = isZh ? 'zh-CN' : 'en'
+        document.querySelectorAll('[data-lang]').forEach(function (node) {
+          node.classList.toggle('on', node.getAttribute('data-lang') === (isZh ? 'zh' : 'en'))
+        })
+        document.querySelectorAll('[data-set-lang]').forEach(function (button) {
+          button.setAttribute('aria-pressed', String(button.getAttribute('data-set-lang') === (isZh ? 'zh' : 'en')))
+        })
+        try { localStorage.setItem(KEY, isZh ? 'zh' : 'en') } catch (error) {}
+      }
+      document.querySelectorAll('[data-set-lang]').forEach(function (button) {
+        button.addEventListener('click', function () { apply(button.getAttribute('data-set-lang')) })
+      })
+      apply(saved === 'en' ? 'en' : 'zh')
+    })()
+  </script>
+</body>
+</html>

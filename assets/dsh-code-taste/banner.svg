@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" width="1280" height="360" role="img" aria-labelledby="t d">
+  <title id="t">dsh-code-taste</title>
+  <desc id="d">A terminal-style banner: the whale keeps learning your coding taste, aesthetic style and habits.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080b10"/>
+      <stop offset="0.55" stop-color="#0c1118"/>
+      <stop offset="1" stop-color="#0a0f16"/>
+    </linearGradient>
+    <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f4f7fb"/>
+      <stop offset="0.62" stop-color="#cfe6ff"/>
+      <stop offset="1" stop-color="#7ee0a8"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#1b2432" stroke-width="1"/>
+    </pattern>
+    <radialGradient id="glow" cx="0.72" cy="0.18" r="0.72">
+      <stop offset="0" stop-color="#2b6fff" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2b6fff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="frame">
+      <rect x="0" y="0" width="1280" height="360" rx="18"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="1280" height="360" fill="url(#bg)"/>
+    <rect width="1280" height="360" fill="url(#grid)" opacity="0.5"/>
+    <rect width="1280" height="360" fill="url(#glow)"/>
+
+    <!-- scanlines -->
+    <g opacity="0.06" stroke="#9ec1ff" stroke-width="1">
+      <path d="M0 24H1280M0 48H1280M0 72H1280M0 96H1280M0 120H1280M0 144H1280M0 168H1280M0 192H1280M0 216H1280M0 240H1280M0 264H1280M0 288H1280M0 312H1280M0 336H1280"/>
+    </g>
+
+    <!-- window chrome -->
+    <g font-family="'Cascadia Code','JetBrains Mono',Consolas,monospace" font-size="13" fill="#5d6b81">
+      <circle cx="34" cy="32" r="5" fill="#ff5f57"/>
+      <circle cx="52" cy="32" r="5" fill="#febc2e"/>
+      <circle cx="70" cy="32" r="5" fill="#28c840"/>
+      <text x="94" y="37">baxterl@harness — ~/plugins/dsh-code-taste</text>
+      <text x="1120" y="37" text-anchor="end">v0.2.0 · DSH</text>
+    </g>
+    <path d="M0 54H1280" stroke="#1c2634" stroke-width="1"/>
+
+    <!-- prompt -->
+    <g font-family="'Cascadia Code','JetBrains Mono',Consolas,monospace" font-size="15">
+      <text x="44" y="96" fill="#7ee0a8">~/code-taste</text>
+      <text x="152" y="96" fill="#5d6b81">❯</text>
+      <text x="172" y="96" fill="#cfe6ff">taste learn --from corrections</text>
+      <rect x="452" y="82" width="9" height="17" fill="#7ee0a8">
+        <animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;0.45;0.5;0.95;1" dur="1.2s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- wordmark -->
+    <g font-family="'Cascadia Code','JetBrains Mono',Consolas,monospace">
+      <text x="40" y="212" fill="#0a0f16" stroke="#0a0f16" stroke-width="10" font-size="86" font-weight="700" letter-spacing="2">CODE TASTE</text>
+      <text x="40" y="212" fill="url(#word)" font-size="86" font-weight="700" letter-spacing="2">CODE TASTE</text>
+      <text x="44" y="248" fill="#7f8ea6" font-size="17" letter-spacing="1.5">dsh-code-taste — 让鲸鱼持续学习你的代码品味、审美风格和各种习惯</text>
+    </g>
+
+    <!-- rule card -->
+    <g transform="translate(846 92)">
+      <rect width="392" height="150" rx="12" fill="#0d141d" stroke="#22303f"/>
+      <text x="18" y="30" font-family="'Cascadia Code','JetBrains Mono',Consolas,monospace" font-size="12" fill="#5d6b81">TASTE.md</text>
+      <g font-family="'Cascadia Code','JetBrains Mono',Consolas,monospace" font-size="13">
+        <text x="18" y="58" fill="#5d6b81">## code-style</text>
+        <rect x="12" y="68" width="368" height="24" rx="5" fill="#12202b"/>
+        <text x="20" y="85" fill="#7ee0a8">- [r_8f2a1c]</text>
+        <text x="118" y="85" fill="#dbe7f5">统一用 const</text>
+        <text x="222" y="85" fill="#f0b95c">@0.85</text>
+        <text x="20" y="112" fill="#7ee0a8">- [r_c31d70]</text>
+        <text x="118" y="112" fill="#dbe7f5">圆角 8px</text>
+        <text x="222" y="112" fill="#f0b95c">@0.72</text>
+        <text x="20" y="136" fill="#4a5568">+ 2 pending · taste review</text>
+      </g>
+    </g>
+
+    <!-- footer ticks -->
+    <g font-family="'Cascadia Code','JetBrains Mono',Consolas,monospace" font-size="11" fill="#3d4a5c" letter-spacing="2">
+      <text x="40" y="330">0x00  SIGNAL → DISTIL → TASTE.md → PROMPT</text>
+      <text x="1240" y="330" text-anchor="end">github.com/BaxterL/dsh-code-taste</text>
+    </g>
+    <path d="M40 306H1240" stroke="#1c2634" stroke-width="1"/>
+  </g>
+</svg>
