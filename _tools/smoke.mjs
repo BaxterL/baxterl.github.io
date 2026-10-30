@@ -97,15 +97,22 @@ check('home title animated in', Number(visible.o) > 0.9, JSON.stringify(visible)
 await evaluate(`[...document.querySelectorAll('.index__item')].find(b => b.textContent.includes('作品')).click()`)
 await sleep(1400)
 const workTitle = await evaluate(`document.querySelector('.section__title')?.innerText.replace(/\\s+/g,' ')`)
-check('nav → 作品', /十三个东西/.test(workTitle ?? ''), workTitle)
+check('nav → 作品', /一路做过来/.test(workTitle ?? ''), workTitle)
 check('hash updated', (await evaluate('location.hash')) === '#/work', await evaluate('location.hash'))
 const cards = await evaluate(`document.querySelectorAll('.tl-card').length`)
-check('13 timeline cards', cards === 13, String(cards))
+check('14 timeline cards', cards === 14, String(cards))
 
-// keyboard → next section
+// keyboard → next section (work → repos)
 await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 }, sessionId)
 await sleep(1400)
-check('ArrowDown → 链接', (await evaluate('location.hash')) === '#/links', await evaluate('location.hash'))
+check('ArrowDown → 仓库', (await evaluate('location.hash')) === '#/repos', await evaluate('location.hash'))
+const repos = await evaluate(`document.querySelectorAll('.repo').length`)
+check('repo rows rendered', repos > 10, String(repos))
+
+// jump to links via the index
+await evaluate(`[...document.querySelectorAll('.index__item')].find(b => b.textContent.includes('联系')).click()`)
+await sleep(1400)
+check('nav → 联系', (await evaluate('location.hash')) === '#/links', await evaluate('location.hash'))
 
 // command book
 await evaluate(`[...document.querySelectorAll('.link-row')].find(a => a.textContent.includes('命令宝典')).click()`)
@@ -143,6 +150,9 @@ if (errors.length) console.log('--- exceptions ---\n' + errors.join('\n'))
 ws.close()
 chrome.kill()
 process.exit(results.some((r) => r.startsWith('FAIL')) ? 1 : 0)
+
+
+
 
 
 

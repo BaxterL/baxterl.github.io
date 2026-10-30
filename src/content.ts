@@ -4,7 +4,8 @@ export const SITE = {
   name: '凛冬初十',
   latin: 'BAXTERL',
   role: 'MINECRAFT 指令 · 小工具 · AI 应用',
-  tagline: '这里什么都没有，只有一面墙、几块颜色和一条网格。',
+  tagline:
+    '2019 年开始做 Minecraft 原版内容，后来写过工具、系统和模组，现在主要做 AI 应用与网页动效。基本都是从零写完，然后把能开的都开源了。',
   location: 'UTC+8',
   year: '2026',
   github: 'https://github.com/BaxterL',
@@ -25,176 +26,197 @@ export const PHASES: Record<Phase, { zh: string; en: string; color: string }> = 
 
 export interface WorkItem {
   id: string
-  year: number
+  period: string
   phase: Phase
   title: string
   sub: string
   desc: string
   href?: string
-  hrefLabel?: string
   note?: string
+  /** 代表作，时间线上打星 */
+  pick?: boolean
 }
 
-/** 2020 → 2025，一条时间线，13 个能拿出来的东西。 */
+/** 时间线：从 2019 到现在，挑能拿出来的。全部仓库在下一页。 */
+export const PERIODS = ['2019—2020', '2021', '2022', '2023', '2024', '2025', '2026']
+
 export const WORK: WorkItem[] = [
   {
+    id: 'start',
+    period: '2019—2020',
+    phase: 'mc',
+    title: '起点',
+    sub: '地图 · 基岩版教程',
+    desc: '从 Minecraft 地图和基岩版命令教程开始，最早的一批东西现在基本只剩 B 站视频。',
+    href: SITE.bilibili,
+  },
+  {
     id: 'bax',
-    year: 2020,
+    period: '2021',
     phase: 'mc',
     title: 'bax',
-    sub: '资源包 · 指令',
-    desc: '早期的指令与资源包试验田，把原版能拆的东西都拆了一遍，也是后来所有地图的地基。',
+    sub: '数据包',
+    desc: 'mcfunction 数据包与开发辅助工具，早期的试验几乎都在这。',
     href: 'https://github.com/BaxterL/bax',
-    hrefLabel: 'github.com/BaxterL/bax',
   },
   {
-    id: 'collect',
-    year: 2020,
+    id: 'mcbbs-arena',
+    period: '2022',
     phase: 'mc',
-    title: 'BaxterL/-',
-    sub: '地图 · 数据包',
-    desc: '早期地图与数据包合集仓库，杂，但都是自己写的。',
-    href: 'https://github.com/BaxterL/-',
-    hrefLabel: 'github.com/BaxterL/-',
+    title: 'MCBBS 擂台赛',
+    sub: '参赛作品',
+    desc: '参加 MCBBS 擂台赛做的一批地图与命令内容，也是那个社区最后的几年。',
   },
   {
-    id: 'jam',
-    year: 2021,
+    id: 'underline-goodjob',
+    period: '2022',
     phase: 'mc',
-    title: 'JAM',
-    sub: '代表作 · MineBBS',
-    desc: '那几年最完整的一次地图作品，发布在 MineBBS，也是被最多人玩过的一个。',
+    title: 'underline Good Job',
+    sub: '参与作品',
+    desc: 'underline 团队的 Good Job 活动参与作品，和队友一起做的地图。',
+  },
+  {
+    id: 'yeggs-jam',
+    period: '2023',
+    phase: 'mc',
+    title: 'YEGGS Map Jam',
+    sub: '2023 · 优胜作品',
+    desc: '2023 YEGGS Map Jam 的优胜作品，完整度最高的一张地图。',
     href: 'https://www.minebbs.com/resources/jam.7386/',
-    hrefLabel: 'minebbs.com/resources/jam.7386',
+    pick: true,
   },
   {
-    id: 'gone',
-    year: 2021,
+    id: 'mcc-jam',
+    period: '2024',
     phase: 'mc',
-    title: '已消失',
-    sub: '随 MCBBS 下线',
-    desc: '还有一批作品跟着社区一起消失了，现在只剩记忆和旧截图。',
-    note: '已佚失',
+    title: 'MCC Game Jam',
+    sub: '参赛作品',
+    desc: 'Minecraft 社区 Game Jam 的参赛作品，限时命题下做的地图。',
   },
   {
-    id: 'video',
-    year: 2022,
-    phase: 'video',
-    title: '命令教程',
-    sub: 'B 站 · 已停更',
-    desc: '把原版命令讲成人话，做了一段时间教程。现在退坑了，视频还在。',
-    href: SITE.bilibili,
-    hrefLabel: 'space.bilibili.com/437726454',
-  },
-  {
-    id: 'webtool',
-    year: 2023,
-    phase: 'tool',
-    title: 'webtool',
-    sub: '小工具集',
-    desc: '零散的小工具集合。另外还有很多没开源的小脚本，不一一列了。',
-    href: 'https://github.com/BaxterL/webtool',
-    hrefLabel: 'github.com/BaxterL/webtool',
-  },
-  {
-    id: 'medical',
-    year: 2023,
+    id: 'plugins',
+    period: '2025',
     phase: 'solo',
-    title: 'MedicalSys',
-    sub: '独立项目',
-    desc: '医疗方向的管理系统：数据模型、接口、界面，一个人从头写完。',
-    href: 'https://github.com/BaxterL/MedicalSys',
-    hrefLabel: 'github.com/BaxterL/MedicalSys',
+    title: 'Minecraft 服务端插件',
+    sub: 'Spigot · Kotlin · 协议层',
+    desc: '给服务器写的一批插件：可见性控制、协议处理、世界与玩家逻辑，不止一个。',
+    pick: true,
+  },
+  {
+    id: 'systems',
+    period: '2025',
+    phase: 'solo',
+    title: '独立系统',
+    sub: 'Vue · Neo4j · 后端',
+    desc: '数据可视化与后台系统，数据模型、接口、界面一个人写完。',
+  },
+  {
+    id: 'scripts',
+    period: '2025',
+    phase: 'tool',
+    title: '小工具与脚本',
+    sub: '工具站 · 自动化',
+    desc: '工具站加一堆没开源的小脚本：自动化、批处理、临时小工具。',
+  },
+  {
+    id: 'goodjob',
+    period: '2025',
+    phase: 'mc',
+    title: 'Minecraft Good Job',
+    sub: '参与作品',
+    desc: 'Minecraft Good Job 的参与作品。',
+  },
+  {
+    id: 'ai',
+    period: '2026',
+    phase: 'ai',
+    title: 'AI 应用',
+    sub: 'LLM · RAG · Agent',
+    desc: '多 Agent 流水线、知识问答、内容生成，从原型做到能上线用。',
+    pick: true,
+  },
+  {
+    id: 'web',
+    period: '2026',
+    phase: 'ai',
+    title: '网页与动效',
+    sub: 'React · GSAP · Canvas',
+    desc: '从静态页面到手写动效引擎，网格、排版和转场都自己写。',
   },
   {
     id: 'sts2',
-    year: 2024,
+    period: '2026',
     phase: 'solo',
-    title: 'STS2 主权之刃',
-    sub: '模组系列',
-    desc: '杀戮尖塔 2 的模组系列，围绕一套自定义卡牌与机制展开，是系列的总入口。',
+    title: '杀戮尖塔 2 模组',
+    sub: 'C# 模组系列',
+    desc: '《君王之刃》《孤注一掷》等几个模组与扩展事件包，自定义卡牌与费用机制。',
     href: 'https://github.com/BaxterL/STS2-re-sovereign-blade',
-    hrefLabel: 'STS2-re-sovereign-blade',
   },
   {
-    id: 'pvb',
-    year: 2024,
-    phase: 'solo',
-    title: 'PlayerVisibleBlock',
-    sub: '模组 · 服务端',
-    desc: '玩家可见方块逻辑，客户端渲染与服务端判定必须严格对上。',
-    href: 'https://github.com/BaxterL/PlayerVisibleBlock',
-    hrefLabel: 'github.com/BaxterL/PlayerVisibleBlock',
-  },
-  {
-    id: 'brief',
-    year: 2024,
-    phase: 'ai',
-    title: 'ai-daily-brief',
-    sub: 'AI 应用',
-    desc: '把每天的信息源压成一份能读完的简报，剩下的交给模型。',
-    href: 'https://github.com/BaxterL/ai-daily-brief',
-    hrefLabel: 'github.com/BaxterL/ai-daily-brief',
-  },
-  {
-    id: 'mbti',
-    year: 2025,
-    phase: 'ai',
-    title: 'mbti-web',
-    sub: 'mbti.tenflake.cn',
-    desc: 'MBTI 测试站，前端、后端、部署一个人全包。',
-    href: 'https://mbti.tenflake.cn',
-    hrefLabel: 'mbti.tenflake.cn',
-  },
-  {
-    id: 'tuoyu',
-    year: 2025,
-    phase: 'ai',
-    title: 'childcare-agent',
-    sub: 'tuoyu.tenflake.cn',
-    desc: '托育场景的智能体：问答、流程、记录串在一条线上，给真实业务用。',
-    href: 'https://tuoyu.tenflake.cn',
-    hrefLabel: 'tuoyu.tenflake.cn',
-  },
-  {
-    id: 'maison',
-    year: 2025,
-    phase: 'ai',
-    title: 'maison-des-mots',
-    sub: '文字的房子',
-    desc: '给词句住的地方，一个把文本重新组织成结构的小实验。',
-    href: 'https://github.com/BaxterL/maison-des-mots',
-    hrefLabel: 'github.com/BaxterL/maison-des-mots',
+    id: 'devtools',
+    period: '2026',
+    phase: 'tool',
+    title: 'DeepSeek Harness 插件',
+    sub: '开发者工具',
+    desc: '偏好蒸馏、规则注入这类开发者工具，给 AI 编码环境用。',
+    href: 'https://github.com/BaxterL/dsh-code-taste',
   },
 ]
-
-export const YEARS = [2020, 2021, 2022, 2023, 2024, 2025]
 
 export const ABOUT: string[] = [
-  '凛冬初十，网上一般叫 BaxterL。2020 年开始做 Minecraft 原版内容：地图、数据包、资源包，主战场是命令和计分板优化。那几年最完整的一件是 JAM，发在 MineBBS；另外还有一批作品跟着 MCBBS 一起下线了。',
-  '2023 年前后开始把重复的活写成工具：计分板树生成器、webtool，还有一堆没开源的小脚本。同一时期也在做独立项目——医疗管理系统 MedicalSys、杀戮尖塔 2 的模组系列「主权之刃」、方块可见性 PlayerVisibleBlock。',
-  '2024 年之后主要做 AI 应用：ai-daily-brief 把信息源压成简报，mbti-web 和 childcare-agent 落在 mbti.tenflake.cn、tuoyu.tenflake.cn 上，最近在折腾 maison-des-mots。',
-  '技术栈偏杂：C++、JavaScript、Kotlin、Java、Python 都写，日常在 Linux 上，Redis、MySQL、Git 算熟。B 站还留着一批命令教程，已经退坑，视频还在。',
+  '凛冬初十，网上一般叫 BaxterL。2019 年开始做 Minecraft 原版内容，最早是地图和基岩版命令教程，后来写数据包、插件和工具。',
+  '一路做过 MCBBS 擂台赛、YEGGS Map Jam（2023 优胜）、MCC Game Jam 这些社区活动，也做过独立系统、插件和模组。',
+  '现在主要做 AI 应用与网页动效，也在维护自己的 DeepSeek Harness 插件。Minecraft 已经退坑，B 站上的教程停更但还留着。',
+  '写代码之外是二次元，看番、玩独立游戏和解谜游戏，最近长泡在《杀戮尖塔 2》里。',
 ]
 
-export const STACK: string[] = [
-  'C++',
-  'JavaScript',
-  'Kotlin',
-  'Java',
-  'Python',
-  'Linux',
-  'Redis',
-  'MySQL',
-  'Git',
+export const INTERESTS: string[] = ['番剧', '独立游戏', '解谜游戏', 'Minecraft']
+
+export interface StackGroup {
+  label: string
+  items: string[]
+}
+
+export const STACK: StackGroup[] = [
+  { label: 'CODE', items: ['JavaScript', 'Python', 'Java', 'Kotlin', 'C++', 'mcfunction'] },
+  { label: 'SYSTEM', items: ['Linux', 'MySQL', 'Redis', 'Git'] },
+  { label: 'VISUAL', items: ['视觉设计', '像素艺术', 'Blockbench 建模'] },
 ]
 
 export const FACTS: Array<{ k: string; v: string }> = [
-  { k: '起点', v: '2020 · Minecraft' },
-  { k: '阶段', v: '指令 → 工具 → 独立项目 → AI' },
-  { k: '作品', v: '13 件（列出来的）' },
-  { k: '坐标', v: 'UTC+8' },
+  { k: '起点', v: '2019 · Minecraft' },
+  { k: '公开仓库', v: '24 个' },
+  { k: '位置', v: 'UTC+8' },
+  { k: '状态', v: '独立开发中' },
 ]
+
+/** 仓库简介改写成技术视角（GitHub 上的原文见仓库页 title）。 */
+export const REPO_DESC: Record<string, string> = {
+  'maison-des-mots': 'React 19 + Vite + GSAP 的纯前端拼贴风写作站，纸感与转场都是手写的',
+  'maison-des-mots-skill': 'SKILL.md 形态的视觉规范：把项目的艺术方向抽成可复用提示词',
+  'dsh-code-taste': 'DeepSeek Harness 插件：偏好蒸馏 + 会话前缀注入，规则是可直接编辑的 markdown',
+  'childcare-agent': 'TypeScript 知识问答：RAG 检索 + 出处标注，面向托育政策与指南',
+  joinus: '单页 HTML 活动页，没有构建工具的静态实现',
+  campus_food: '校园外卖的后端逻辑：PostgreSQL + PLpgSQL 存储过程',
+  'baxterl.github.io': '本仓库：React + TS + GSAP，双 canvas 海报与翻片转场',
+  'ai-daily-brief': 'Python 多 Agent 流水线，4 个 LLM 并行汇总每日信息',
+  lightjump: 'GDScript 平台跳跃原型，Godot 期末作业',
+  NeonStriker: 'Go 写的小游戏原型与规则服务',
+  'STS2-MoreEvent': 'C# 杀戮尖塔 2 模组：向事件池注入更多事件',
+  'STS2-ExtraEventPack': 'C# 模组：额外事件包，配置驱动的卡牌与事件扩展',
+  'STS2-TheGambitMod': 'C# 模组：孤注一掷系列卡牌与费用机制',
+  'STS2-re-sovereign-blade': 'C# 模组：君王之刃，自定义卡牌与一费机制',
+  MedicalSys: 'Vue + Neo4j：医疗知识图谱的可视化展示',
+  auto_watch: 'Python 自动化脚本：定时任务与页面操作',
+  webtool: '工具站后端与前端小工具集合，部署在 tool.tenflake.cn',
+  PlayerVisibleBlock: 'Kotlin + Spigot 1.12.2 + ProtocolLib：仅指定玩家可见的方块',
+  bax: 'mcfunction 数据包与开发辅助工具',
+  'Command-note': 'Minecraft 命令笔记与可运行示例',
+  cmdhelper_bot: 'Python 小栗子机器人：命令问答与检索',
+  '-': 'Command-note 的教学示例数据包',
+  bax_lib: '数据包基础库与常用函数封装',
+  vercel: 'Vercel 部署配置与边缘函数实验',
+}
 
 export interface LinkItem {
   num: string
@@ -206,7 +228,14 @@ export interface LinkItem {
 }
 
 export const LINKS: LinkItem[] = [
-  { num: 'L.01', label: 'GitHub', note: '@BaxterL', href: SITE.github, go: 'GITHUB', external: true },
+  {
+    num: 'L.01',
+    label: 'GitHub',
+    note: '@BaxterL · 24 个公开仓库',
+    href: SITE.github,
+    go: 'GITHUB',
+    external: true,
+  },
   { num: 'L.02', label: '个人网站', note: 'tenflake.cn', href: SITE.site, go: 'VISIT', external: true },
   {
     num: 'L.03',
@@ -216,17 +245,47 @@ export const LINKS: LinkItem[] = [
     go: 'BILIBILI',
     external: true,
   },
-  { num: 'L.04', label: '命令宝典', note: '旧站收录的指令资料 · 内部页', href: '#/book', go: 'OPEN' },
   {
-    num: 'L.05',
-    label: 'dsh-code-taste',
-    note: 'the whale learns your coding taste',
-    href: 'https://github.com/BaxterL/dsh-code-taste',
-    go: 'REPO',
-    external: true,
+    num: 'L.04',
+    label: '旧站 · 命令宝典',
+    note: 'legacy/v1 已封存 · 旧站收录的指令资料',
+    href: '#/book',
+    go: 'OPEN',
   },
-  { num: 'L.06', label: '旧版站点', note: 'legacy/v1 分支封存', href: '#/archive', go: 'SEE' },
 ]
+
+export interface FriendItem {
+  label: string
+  note: string
+  href: string
+}
+
+export const FRIENDS: FriendItem[] = [
+  { label: 'underline.icu', note: 'underline 团队 · 我的友链', href: 'https://underline.icu/' },
+  { label: '蓝天工作室', note: 'bsc.meteormc.cn', href: 'https://bsc.meteormc.cn/' },
+  { label: 'ovo7.cc', note: 'shiroha7z · 终端式个人站', href: 'https://ovo7.cc/' },
+]
+
+export interface TermLine {
+  cmd: string
+  out: string[]
+}
+
+/** The console on the last page: a real `whoami` read-out. */
+export const TERMINAL: TermLine[] = [
+  { cmd: 'whoami', out: ['baxterl'] },
+  { cmd: 'uname -sr', out: ['Linux 6.8.0-tenflake'] },
+  { cmd: 'cat ~/.stack', out: ['js python java kotlin c++ mcfunction / linux mysql redis'] },
+  { cmd: 'ls ~/projects', out: ['ai/  minecraft/  solo/  tools/'] },
+  { cmd: 'uptime', out: ['6 years · 24 public repos · UTC+8'] },
+]
+
+export const FINAL = {
+  node: 'TENFLAKE-01',
+  build: '2026.10',
+  status: 'OPEN',
+  signal: ['WEB', 'MC', 'AI'],
+}
 
 export interface BookItem {
   title: string

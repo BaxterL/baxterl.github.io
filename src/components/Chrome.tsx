@@ -1,4 +1,4 @@
-import { SITE } from '../content'
+﻿import { SITE } from '../content'
 import { SECTION_META, SECTION_ORDER, type SectionId } from '../core/poses'
 
 export function SoundButton({
@@ -43,7 +43,7 @@ export function Masthead({
       </div>
       <div className="masthead__meta">
         <span>
-          PERSONAL INDEX <b>00—04</b>
+          PERSONAL INDEX <b>00—05</b>
         </span>
         <span>REV. {SITE.year}</span>
         <span>SINGLE VIEWPORT · 无滚动</span>
@@ -113,3 +113,4 @@ export function Rail({
     </footer>
   )
 }
+
