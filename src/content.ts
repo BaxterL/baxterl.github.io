@@ -261,7 +261,7 @@ export interface FriendItem {
 }
 
 export const FRIENDS: FriendItem[] = [
-  { label: 'underline.icu', note: 'underline 团队 · 我的友链', href: 'https://underline.icu/' },
+  { label: 'underline.icu', note: 'underline 团队', href: 'http://underline.icu/' },
   { label: '蓝天工作室', note: 'bsc.meteormc.cn', href: 'https://bsc.meteormc.cn/' },
   { label: 'ovo7.cc', note: 'shiroha7z · 终端式个人站', href: 'https://ovo7.cc/' },
 ]
