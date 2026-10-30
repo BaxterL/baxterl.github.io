@@ -3,7 +3,7 @@ import { Book } from './components/Book'
 import { Masthead, Nav, Rail } from './components/Chrome'
 import { FlipField, type FlipHandle } from './components/FlipField'
 import { SectionView } from './components/Sections'
-import { SECTION_ORDER, type SectionId } from './core/poses'
+import { SECTION_META, SECTION_ORDER, type SectionId } from './core/poses'
 import { PosterEngine } from './core/engine'
 import type { Gesture } from './core/painter'
 import { SoundKit } from './core/sound'
@@ -178,12 +178,13 @@ export default function App() {
   /* ------------------------------------------------------------------ swipe */
   const swipe = useRef<{ x: number; y: number; t: number } | null>(null)
   const onPointerDown = (e: ReactPointerEvent) => {
+    if (e.pointerType !== 'touch') return
     swipe.current = { x: e.clientX, y: e.clientY, t: performance.now() }
   }
   const onPointerUp = (e: ReactPointerEvent) => {
     const start = swipe.current
     swipe.current = null
-    if (!start || bookRef.current) return
+    if (!start || e.pointerType !== 'touch' || bookRef.current) return
     const dx = e.clientX - start.x
     const dy = e.clientY - start.y
     if (Math.abs(dx) < 46 && Math.abs(dy) < 46) return
@@ -216,6 +217,37 @@ export default function App() {
       <main className={`stage${entering ? ' is-entering' : ''}`} id="main">
         <SectionView section={section} go={navigate} />
       </main>
+
+      <div className="pager" aria-label="切换页面">
+        <button
+          type="button"
+          className="pager__btn"
+          onClick={() =>
+            navigate(
+              SECTION_ORDER[
+                (SECTION_ORDER.indexOf(section) - 1 + SECTION_ORDER.length) % SECTION_ORDER.length
+              ],
+            )
+          }
+          aria-label="上一节"
+        >
+          ←
+        </button>
+        <span className="pager__num">
+          {SECTION_META[section].num}
+          <i>/ 05</i>
+        </span>
+        <button
+          type="button"
+          className="pager__btn"
+          onClick={() =>
+            navigate(SECTION_ORDER[(SECTION_ORDER.indexOf(section) + 1) % SECTION_ORDER.length])
+          }
+          aria-label="下一节"
+        >
+          →
+        </button>
+      </div>
 
       <Rail soundOn={soundEnabled} onToggleSound={toggleSound} />
       {book && <Book onClose={closeBook} />}

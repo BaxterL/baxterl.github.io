@@ -198,11 +198,15 @@ function Repos() {
       <div className="repo-list reveal" style={r(3)}>
         {list.map((repo) => (
           <a className="repo" key={repo.name} href={repo.url} target="_blank" rel="noreferrer">
-            <span className="repo__name">{repo.name}</span>
+            <span className="repo__name">
+              {repo.name}
+              <i aria-hidden="true">↗</i>
+            </span>
             <span className="repo__desc">{REPO_DESC[repo.name] ?? repo.desc}</span>
-            <span className="repo__lang">{repo.lang || '—'}</span>
-            <span className="repo__date">{repo.pushed}</span>
-            <span className="repo__go">↗</span>
+            <span className="repo__meta">
+              <b>{repo.lang || '—'}</b>
+              <em>{repo.pushed}</em>
+            </span>
           </a>
         ))}
       </div>
@@ -319,6 +323,10 @@ function TerminalScreen() {
           <div>
             <span>BUILD</span>
             <b>{FINAL.build}</b>
+          </div>
+          <div>
+            <span>SYS</span>
+            <b>{FINAL.system}</b>
           </div>
           <div>
             <span>STATUS</span>

@@ -100,8 +100,8 @@ export const POSES: Record<SectionId, Record<string, Pose>> = {
   repos: {
     ringInk: { x: 0.93, y: 0.12, s: 0.85, r: 0, a: 0.85 },
     discRed: { x: 0.885, y: 0.34, s: 0.6, r: 0, a: 1 },
-    triYellow: { x: 0.93, y: 0.72, s: 0.8, r: 0, a: 0.9 },
-    barInk: { x: 0.845, y: 0.55, s: 0.6, r: 0, a: 1 },
+    triYellow: { x: 0.93, y: 0.74, s: 0.65, r: 0, a: 0.75 },
+    barInk: { x: 0.845, y: 0.55, s: 0.6, r: 0, a: 0 },
     dotsInk: { x: 0.895, y: 0.48, s: 0.3, r: 0, a: 0.4 },
     quadBlue: off(0.985, 0.9),
     discYellow: off(0.845, 0.145),

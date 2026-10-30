@@ -274,9 +274,10 @@ export interface TermLine {
 /** The console on the last page: a real `whoami` read-out. */
 export const TERMINAL: TermLine[] = [
   { cmd: 'whoami', out: ['baxterl'] },
-  { cmd: 'uname -sr', out: ['Linux 6.8.0-tenflake'] },
-  { cmd: 'cat ~/.stack', out: ['js python java kotlin c++ mcfunction / linux mysql redis'] },
-  { cmd: 'ls ~/projects', out: ['ai/  minecraft/  solo/  tools/'] },
+  { cmd: 'uname -sr', out: ['Linux 6.8.0-kali1-amd64'] },
+  { cmd: 'cat /etc/os-release', out: ['PRETTY_NAME="Kali GNU/Linux Rolling"'] },
+  { cmd: 'ls ~/ctf', out: ['crypto/  misc/  pwn/  rev/  web/'] },
+  { cmd: 'cat ~/.stack', out: ['js python java kotlin c++ mcfunction'] },
   { cmd: 'uptime', out: ['6 years · 24 public repos · UTC+8'] },
 ]
 
@@ -284,6 +285,7 @@ export const FINAL = {
   node: 'TENFLAKE-01',
   build: '2026.10',
   status: 'OPEN',
+  system: 'kali-rolling',
   signal: ['WEB', 'MC', 'AI'],
 }
 

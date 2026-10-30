@@ -107,7 +107,7 @@ await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 
 await sleep(1400)
 check('ArrowDown → 仓库', (await evaluate('location.hash')) === '#/repos', await evaluate('location.hash'))
 const repos = await evaluate(`document.querySelectorAll('.repo').length`)
-check('repo rows rendered', repos > 10, String(repos))
+check('repo cards rendered', repos > 10, String(repos))
 
 // jump to links via the index
 await evaluate(`[...document.querySelectorAll('.index__item')].find(b => b.textContent.includes('联系')).click()`)
@@ -150,6 +150,7 @@ if (errors.length) console.log('--- exceptions ---\n' + errors.join('\n'))
 ws.close()
 chrome.kill()
 process.exit(results.some((r) => r.startsWith('FAIL')) ? 1 : 0)
+
 
 
 
