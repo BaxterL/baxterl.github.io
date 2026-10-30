@@ -143,7 +143,6 @@ export default function App() {
       const idx = SECTION_ORDER.indexOf(sectionRef.current)
       const down = ['ArrowDown', 'ArrowRight', 'PageDown', ' ']
       const up = ['ArrowUp', 'ArrowLeft', 'PageUp']
-      if (!autoRef.current) return
       if (down.includes(e.key)) {
         e.preventDefault()
         navigate(SECTION_ORDER[(idx + 1) % SECTION_ORDER.length])
@@ -263,19 +262,14 @@ export default function App() {
         >
           →
         </button>
-        <button
-          type="button"
-          className={`pager__auto${autoPlay ? ' is-on' : ''}`}
-          onClick={() => setAutoPlay((v) => !v)}
-          aria-pressed={autoPlay}
-          title="开启后滚轮和方向键可以切换"
-        >
-          <i aria-hidden="true" />
-          PLAY
-        </button>
       </div>
 
-      <Rail soundOn={soundEnabled} onToggleSound={toggleSound} />
+      <Rail
+        soundOn={soundEnabled}
+        onToggleSound={toggleSound}
+        autoPlay={autoPlay}
+        onToggleAuto={() => setAutoPlay((v) => !v)}
+      />
       {book && <Book onClose={closeBook} />}
     </div>
   )

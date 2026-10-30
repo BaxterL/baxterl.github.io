@@ -2573,3 +2573,21 @@ button {
 .pager__auto.is-on i {
   background: var(--red);
 }
+
+.rail__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.play__dot {
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  display: inline-block;
+  transition: background 0.18s linear;
+}
+
+.play.is-on .play__dot {
+  background: var(--red);
+}

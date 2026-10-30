@@ -97,7 +97,7 @@ if (clickText !== 'none') {
   const click = await send(
   'Runtime.evaluate',
   {
-    expression: `(() => { const el = [...document.querySelectorAll('.index__item')].find(b => b.textContent.includes(${JSON.stringify(clickText)})); if (!el) return 'missing'; el.click(); return 'ok' })()`,
+    expression: `(() => { const sel = ${JSON.stringify(clickText)}; const el = sel.startsWith('.') ? document.querySelector(sel) : [...document.querySelectorAll('.index__item')].find(b => b.textContent.includes(sel)); if (!el) return 'missing'; el.click(); return 'ok' })()`,
     returnByValue: true,
   },
     sessionId,

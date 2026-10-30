@@ -164,8 +164,8 @@ export const WORK: WorkItem[] = [
 ]
 
 export const ABOUT: string[] = [
-  '我是凛冬初十，ID 是 BaxterL。2019 年开始做 Minecraft 原版内容——先是地图和基岩版命令教程，后来写数据包、插件和工具。',
-  '这几年主要在社区活动里做东西：MCBBS 擂台赛、underline Good Job、YEGGS Map Jam（2023 优胜）、MCC Game Jam、Minecraft Good Job，大多是在限时命题下和队友把一张图做完。',
+  '我是凛冬初十。2019 年开始做 Minecraft 原版内容——先是基岩版命令教程和地图，后来写数据包、插件和工具。',
+  '2020 到 2024 年基本泡在 Minecraft 社区：跟着社区打各种比赛、给服务器写功能，后来重心慢慢从玩转到做。',
   '也独立做过服务端插件、数据可视化和杀戮尖塔 2 的模组；现在主要做 AI 应用和网页动效，顺带维护自己的 DeepSeek Harness 插件。Minecraft 已经退坑，B 站的教程停更但还留着。',
   '写代码之外是二次元，看番、玩独立游戏和解谜游戏，最近长泡在《杀戮尖塔 2》里。',
 ]
@@ -186,7 +186,7 @@ export const STACK: StackGroup[] = [
 export const FACTS: Array<{ k: string; v: string }> = [
   { k: '起点', v: '2019 · Minecraft' },
   { k: '公开仓库', v: '24 个' },
-  { k: '位置', v: '重庆 · UTC+8' },
+  { k: '位置', v: '重庆' },
   { k: '状态', v: '独立开发中' },
 ]
 

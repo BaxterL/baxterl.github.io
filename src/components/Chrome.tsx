@@ -92,9 +92,13 @@ export function Nav({
 export function Rail({
   soundOn,
   onToggleSound,
+  autoPlay,
+  onToggleAuto,
 }: {
   soundOn: boolean
   onToggleSound: () => void
+  autoPlay: boolean
+  onToggleAuto: () => void
 }) {
   return (
     <footer className="rail">
@@ -102,11 +106,28 @@ export function Rail({
         © {SITE.year} {SITE.name} / {SITE.latin}
       </span>
       <span className="rail__hint">
-        <span className="kbd">PLAY</span>
-        点击切换 · 开启后用滚轮 / 方向键
+        {autoPlay ? (
+          '滚轮切换页面'
+        ) : (
+          <span className="rail__keys">
+            <span className="kbd">↑</span>
+            <span className="kbd">↓</span>
+          </span>
+        )}
       </span>
-      <SoundButton soundOn={soundOn} onToggleSound={onToggleSound} className="sound--rail" />
+      <span className="rail__actions">
+        <button
+          type="button"
+          className={`sound play${autoPlay ? ' is-on' : ''}`}
+          onClick={onToggleAuto}
+          aria-pressed={autoPlay}
+          title="开启后可用滚轮切换页面"
+        >
+          <i className="play__dot" aria-hidden="true" />
+          PLAY {autoPlay ? 'ON' : 'OFF'}
+        </button>
+        <SoundButton soundOn={soundOn} onToggleSound={onToggleSound} className="sound--rail" />
+      </span>
     </footer>
   )
 }
-
