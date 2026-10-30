@@ -13,7 +13,7 @@ import {
   STACK,
   WORK,
 } from '../content'
-import { REPOS } from '../data/repos'
+import { LANG_MIX, REPOS } from '../data/repos'
 import type { SectionId } from '../core/poses'
 import { TerminalView } from './Terminal'
 
@@ -170,18 +170,35 @@ function Repos() {
   const langs = useMemo(() => {
     const map = new Map<string, number>()
     REPOS.forEach((repo) => {
-      const key = repo.lang || '其他'
-      map.set(key, (map.get(key) ?? 0) + 1)
+      // a repo counts for every language it actually writes (>= 5 % of its bytes)
+      repo.langs.forEach((l) => map.set(l.name, (map.get(l.name) ?? 0) + 1))
     })
     return [...map.entries()].sort((a, b) => b[1] - a[1])
   }, [])
-  const list = lang === '全部' ? REPOS : REPOS.filter((repo) => (repo.lang || '其他') === lang)
+  const list =
+    lang === '全部' ? REPOS : REPOS.filter((repo) => repo.langs.some((l) => l.name === lang))
 
   return (
     <>
       <Head meta="02" kicker={`REPOS · ${REPOS.length} 个公开仓库`} />
       <Title zh="仓库" latin="REPOS" />
-      <div className="chips reveal" style={r(2)}>
+      <div className="langmix reveal" style={r(2)}>
+        <span className="pills__label">LANG</span>
+        <span className="langmix__track">
+          {LANG_MIX.map((l, i) => (
+            <i key={l.name} style={{ width: `${l.pct}%` }} data-i={i} />
+          ))}
+        </span>
+        <span className="langmix__legend">
+          {LANG_MIX.map((l, i) => (
+            <span key={l.name} className="langmix__item">
+              <i data-i={i} />
+              {l.name} {l.pct}%
+            </span>
+          ))}
+        </span>
+      </div>
+      <div className="chips reveal" style={r(3)}>
         <button
           type="button"
           className={`chip${lang === '全部' ? ' is-on' : ''}`}
@@ -200,7 +217,7 @@ function Repos() {
           </button>
         ))}
       </div>
-      <div className="repo-list reveal" style={r(3)}>
+      <div className="repo-list reveal" style={r(4)}>
         {list.map((repo) => (
           <a className="repo" key={repo.name} href={repo.url} target="_blank" rel="noreferrer">
             <span className="repo__name">

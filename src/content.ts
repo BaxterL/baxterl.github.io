@@ -255,6 +255,13 @@ export const LINKS: LinkItem[] = [
   },
   {
     num: 'L.04',
+    label: '邮箱',
+    note: '2954839300@qq.com',
+    href: 'mailto:2954839300@qq.com',
+    go: 'MAIL',
+  },
+  {
+    num: 'L.05',
     label: '旧站 · 命令宝典',
     note: 'legacy/v1 已封存 · 旧站收录的指令资料',
     href: '#/book',
@@ -286,6 +293,7 @@ export const TERMINAL: TermLine[] = [
   { cmd: 'cat /etc/os-release', out: ['PRETTY_NAME="Kali GNU/Linux Rolling"'] },
   { cmd: 'ls ~/ctf', out: ['crypto/  misc/  pwn/  rev/  web/'] },
   { cmd: 'cat ~/.stack', out: ['js python java kotlin c++ mcfunction'] },
+  { cmd: 'cat ~/.contact', out: ['mail 2954839300@qq.com'] },
   { cmd: 'uptime', out: ['6 years · 24 public repos · UTC+8'] },
 ]
 
