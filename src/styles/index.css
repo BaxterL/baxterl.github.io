@@ -2539,3 +2539,37 @@ button {
 }
 
 
+
+.pager__auto {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-left: 1px solid var(--hair-strong);
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  color: var(--ink-55);
+  transition: color 0.18s linear, background 0.18s linear;
+}
+
+.pager__auto i {
+  width: 7px;
+  height: 7px;
+  background: var(--ink-40);
+  transition: background 0.18s linear;
+}
+
+.pager__auto:hover {
+  color: var(--ink);
+}
+
+.pager__auto.is-on {
+  color: var(--ink);
+  background: rgba(17, 17, 17, 0.06);
+}
+
+.pager__auto.is-on i {
+  background: var(--red);
+}

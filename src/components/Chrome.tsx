@@ -103,11 +103,8 @@ export function Rail({
         © {SITE.year} {SITE.name} / {SITE.latin}
       </span>
       <span className="rail__hint">
-        <span className="rail__keys">
-          <span className="kbd">↑</span>
-          <span className="kbd">↓</span>
-        </span>
-        切换 · {SITE.location}
+        <span className="kbd">PLAY</span>
+        点击切换 · 开启后可用滚轮 / 方向键 · {SITE.location}
       </span>
       <SoundButton soundOn={soundOn} onToggleSound={onToggleSound} className="sound--rail" />
     </footer>

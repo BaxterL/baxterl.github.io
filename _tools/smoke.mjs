@@ -102,10 +102,16 @@ check('hash updated', (await evaluate('location.hash')) === '#/work', await eval
 const cards = await evaluate(`document.querySelectorAll('.tl-card').length`)
 check('14 timeline cards', cards === 14, String(cards))
 
-// keyboard → next section (work → repos)
+// arrows are locked until PLAY mode is on
+await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 }, sessionId)
+await sleep(900)
+check('arrows locked by default', (await evaluate('location.hash')) === '#/work', await evaluate('location.hash'))
+
+await evaluate(`document.querySelector('.pager__auto').click()`)
+await sleep(300)
 await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 }, sessionId)
 await sleep(1400)
-check('ArrowDown → 仓库', (await evaluate('location.hash')) === '#/repos', await evaluate('location.hash'))
+check('PLAY mode → ArrowDown → 仓库', (await evaluate('location.hash')) === '#/repos', await evaluate('location.hash'))
 const repos = await evaluate(`document.querySelectorAll('.repo').length`)
 check('repo cards rendered', repos > 10, String(repos))
 

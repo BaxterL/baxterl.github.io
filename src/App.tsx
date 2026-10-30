@@ -26,6 +26,7 @@ export default function App() {
   const [section, setSection] = useState<SectionId>(initial.current.section)
   const [book, setBook] = useState(initial.current.book)
   const [entering, setEntering] = useState(false)
+  const [autoPlay, setAutoPlay] = useState(false)
 
   const kitRef = useRef<SoundKit | null>(null)
   const [soundOn] = useState(() => {
@@ -39,10 +40,15 @@ export default function App() {
   const sectionRef = useRef<SectionId>(initial.current.section)
   const bookRef = useRef(initial.current.book)
   const busyRef = useRef(false)
+  const autoRef = useRef(false)
   const enterTimer = useRef(0)
   const posterRef = useRef<HTMLCanvasElement>(null)
   const curtainRef = useRef<HTMLCanvasElement>(null)
   const gestureRef = useRef(0)
+
+  useEffect(() => {
+    autoRef.current = autoPlay
+  }, [autoPlay])
 
   /* ------------------------------------------------- engine / intro / input */
   useEffect(() => {
@@ -137,6 +143,7 @@ export default function App() {
       const idx = SECTION_ORDER.indexOf(sectionRef.current)
       const down = ['ArrowDown', 'ArrowRight', 'PageDown', ' ']
       const up = ['ArrowUp', 'ArrowLeft', 'PageUp']
+      if (!autoRef.current) return
       if (down.includes(e.key)) {
         e.preventDefault()
         navigate(SECTION_ORDER[(idx + 1) % SECTION_ORDER.length])
@@ -167,13 +174,22 @@ export default function App() {
 
   /* ------------------------------------------- one page, one viewport: lock */
   useEffect(() => {
+    let last = 0
     const onWheel = (e: WheelEvent) => {
       if (bookRef.current) return
-      if (Math.abs(e.deltaY) > 0) e.preventDefault()
+      e.preventDefault()
+      if (!autoRef.current) return
+      const now = performance.now()
+      if (now - last < 900) return
+      if (Math.abs(e.deltaY) < 24) return
+      last = now
+      const idx = SECTION_ORDER.indexOf(sectionRef.current)
+      const step = e.deltaY > 0 ? 1 : SECTION_ORDER.length - 1
+      navigate(SECTION_ORDER[(idx + step) % SECTION_ORDER.length])
     }
     window.addEventListener('wheel', onWheel, { passive: false })
     return () => window.removeEventListener('wheel', onWheel)
-  }, [])
+  }, [navigate])
 
   /* ------------------------------------------------------------------ swipe */
   const swipe = useRef<{ x: number; y: number; t: number } | null>(null)
@@ -246,6 +262,16 @@ export default function App() {
           aria-label="下一节"
         >
           →
+        </button>
+        <button
+          type="button"
+          className={`pager__auto${autoPlay ? ' is-on' : ''}`}
+          onClick={() => setAutoPlay((v) => !v)}
+          aria-pressed={autoPlay}
+          title="开启后滚轮和方向键可以切换"
+        >
+          <i aria-hidden="true" />
+          PLAY
         </button>
       </div>
 
