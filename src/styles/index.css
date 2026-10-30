@@ -1539,3 +1539,44 @@ button {
   flex-direction: column;
   gap: 0.35em;
 }
+
+
+/* ==========================================================================
+   The flip wall — cards turn over to swap the page underneath
+   ========================================================================== */
+
+.flipfield {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-curtain);
+  display: grid;
+  pointer-events: none;
+}
+
+.flipfield__tile {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.flipfield__face {
+  position: absolute;
+  inset: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flipfield__face--front {
+  background: transparent;
+}
+
+.flipfield__face--back {
+  background: var(--ink);
+  transform: rotateY(180deg);
+}
+
+
+
+
+
+

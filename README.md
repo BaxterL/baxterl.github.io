@@ -1,4 +1,4 @@
-# 凛冬初十 · BAXTERL — 个人索引
+﻿# 凛冬初十 · BAXTERL — 个人索引
 
 [![site](https://img.shields.io/badge/site-baxterl.github.io-111111)](https://baxterl.github.io)
 [![stack](https://img.shields.io/badge/stack-React%2019%20%2B%20TS%20%2B%20GSAP%20%2B%20Canvas-E03C31)](package.json)
@@ -45,10 +45,10 @@ npm run preview    # 预览构建产物
 src/
   App.tsx              路由 / 键盘 / 手势 / 转场编排
   content.ts           全站文案与链接（改字只改这里）
-  components/          Masthead · Nav · Rail · Sections · Book
+  components/          Masthead · Nav · Rail · Sections · Book · FlipField（翻片墙）
   core/
-    engine.ts          双 canvas 引擎：贴版、幕布、120BPM 结构时钟
-    painter.ts         网格 / 几何图形 / 四种机械转场（bars·disc·tiles·shutter）
+    engine.ts          海报引擎：零件拼装、版式切换、120BPM 结构时钟
+    painter.ts         网格 / 几何图形 / 零件拼装（fan·quad·tri）
     poses.ts           每个节的版式坐标（横屏 + 竖屏两套）
     layout.ts          模块化网格度量
     ease.ts            机械缓动（power2 in/out，禁用回弹）
@@ -61,8 +61,8 @@ _tools/                截图 / 转场逐帧 / 冒烟测试脚本（headless Chr
 
 ## 动效与交互
 
-- **入场**：网格线先画出，几何版落下（`power2.in`，落点即停），随后字块从遮罩里升起。
-- **转场**：每次切换节，幕布以四种机械动作之一合上 → 换版 → 拉开；新版图形同时重新排布。
+- **入场**：网格线先画出，几何体从**零件状态**拼装起来（圆拆成四瓣、三角拆成三片、方块拆成四格），随后字块从遮罩里升起。
+- **转场**：整屏 **16×N 方块翻面**（flip-dot 翻片）：一半正转一半反转、中心向外散开，合上时背面是一块用方块拼出来的目标节编号（00–04），再继续翻 180° 把新页面剥出来；同时新版几何体重新拼装。
 - **无滚动**：主页锁定单屏（`overflow: hidden` + 滚轮拦截）；只有 `#/book` 文档页内部可滚。
 - **输入**：`↑ ↓` / `← →` / `1–5` / 右侧索引 / 手机左右上下滑；`Esc` 关闭命令宝典。
 - **声音**：右下角 `SOUND` 开关（默认关，本地记住选择），落版有印刷机式的 tick / thock。
@@ -93,3 +93,4 @@ _tools/                截图 / 转场逐帧 / 冒烟测试脚本（headless Chr
 ## 鸣谢
 
 动效语言参考了 [mg-styles-15 · 09-bauhaus](https://github.com/Vincentwei1021/mg-styles-15/blob/main/prompts/09-bauhaus.md)（几何构成 / 包豪斯动态海报）：严格模数网格、三原色加黑白、绕轴旋转与节拍驱动、`power2` 缓动且禁止 overshoot。
+

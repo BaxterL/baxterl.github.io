@@ -1,4 +1,4 @@
-import { clamp, DEG, detent, io2 } from './ease'
+﻿import { clamp, DEG, detent, io2 } from './ease'
 import { colLines, type Metrics, rowLines } from './layout'
 import type { ActorSpec, Ink, Pose } from './poses'
 
@@ -8,16 +8,6 @@ export const INK_COLOR: Record<Ink, string> = {
   blue: '#1E4FA3',
   ink: '#111111',
   paper: '#F1E9DA',
-}
-
-export type Gesture = 'bars' | 'disc' | 'tiles' | 'shutter'
-
-export interface CurtainState {
-  /** 0 = page visible, 1 = plate fully closed */
-  p: number
-  gesture: Gesture
-  /** true while the plate is being pulled off again */
-  revealing: boolean
 }
 
 /* ------------------------------------------------------------------ grid */
@@ -85,6 +75,19 @@ function drawTarget(ctx: CanvasRenderingContext2D, x: number, y: number) {
 
 /* ---------------------------------------------------------------- actors */
 
+export type SplitMode = 'fan' | 'quad' | 'tri'
+
+/** Every plate is printed in pieces that snap together. */
+export const SPLIT: Partial<Record<ActorSpec['shape'], { mode: SplitMode; n: number }>> = {
+  disc: { mode: 'fan', n: 4 },
+  ring: { mode: 'fan', n: 4 },
+  quarter: { mode: 'fan', n: 2 },
+  half: { mode: 'fan', n: 3 },
+  square: { mode: 'quad', n: 4 },
+  bar: { mode: 'quad', n: 2 },
+  triangle: { mode: 'tri', n: 3 },
+}
+
 function pathFor(ctx: CanvasRenderingContext2D, shape: ActorSpec['shape'], m: number) {
   ctx.beginPath()
   switch (shape) {
@@ -138,6 +141,64 @@ function pathFor(ctx: CanvasRenderingContext2D, shape: ActorSpec['shape'], m: nu
   }
 }
 
+/** clip path for one piece of the plate, in local (untransformed) coordinates */
+function piecePath(ctx: CanvasRenderingContext2D, mode: SplitMode, k: number, n: number, m: number) {
+  ctx.beginPath()
+  if (mode === 'fan') {
+    const a0 = (k / n) * Math.PI * 2
+    const a1 = ((k + 1) / n) * Math.PI * 2
+    ctx.moveTo(0, 0)
+    ctx.arc(0, 0, m * 1.5, a0, a1)
+    ctx.closePath()
+  } else if (mode === 'quad') {
+    if (n === 2) {
+      ctx.rect(-m * 1.2, k === 0 ? -m * 1.4 : 0, m * 2.4, m * 1.4)
+    } else {
+      const x = k % 2 === 0 ? -m : 0
+      const y = k < 2 ? -m : 0
+      ctx.rect(x, y, m, m)
+    }
+  } else {
+    const rr = m * 0.62
+    const pts = [0, 1, 2].map((i) => {
+      const a = -Math.PI / 2 + (i * Math.PI * 2) / 3
+      return [Math.cos(a) * rr, Math.sin(a) * rr] as const
+    })
+    const a = pts[k]
+    const b = pts[(k + 1) % 3]
+    ctx.moveTo(0, 0)
+    ctx.lineTo(a[0], a[1])
+    ctx.lineTo(b[0], b[1])
+    ctx.closePath()
+  }
+}
+
+/** where a piece sits relative to the assembled plate */
+function pieceOffset(mode: SplitMode, k: number, n: number, m: number, away: number) {
+  if (mode === 'fan') {
+    const mid = ((k + 0.5) / n) * Math.PI * 2
+    return {
+      dx: Math.cos(mid) * m * 0.16 * away,
+      dy: Math.sin(mid) * m * 0.16 * away,
+      rot: away * (k % 2 === 0 ? -1 : 1) * 0.55,
+    }
+  }
+  if (mode === 'quad') {
+    if (n === 2) {
+      return { dx: 0, dy: (k === 0 ? -1 : 1) * m * 0.34 * away, rot: 0 }
+    }
+    const dx = (k % 2 === 0 ? -1 : 1) * m * 0.3 * away
+    const dy = (k < 2 ? -1 : 1) * m * 0.3 * away
+    return { dx, dy, rot: away * (k % 2 === 0 ? -0.12 : 0.12) }
+  }
+  const mid = -Math.PI / 2 + ((k + 0.5) * Math.PI * 2) / 3
+  return {
+    dx: Math.cos(mid) * m * 0.3 * away,
+    dy: Math.sin(mid) * m * 0.3 * away,
+    rot: away * (k === 0 ? -0.3 : 0.25),
+  }
+}
+
 /** The escapement: a held beat, then a quarter turn that stops dead. */
 function detentAngle(spec: ActorSpec, clock: number) {
   if (!spec.detent) return 0
@@ -150,8 +211,8 @@ function detentAngle(spec: ActorSpec, clock: number) {
 export interface DrawActorOptions {
   clock: number
   parallax?: { x: number; y: number }
-  /** fade the whole plate (used while the curtain is closed) */
-  alpha?: number
+  /** 1 = assembled, 0 = pieces exploded */
+  asm?: number
 }
 
 export function drawActor(
@@ -161,154 +222,64 @@ export function drawActor(
   pose: Pose,
   opt: DrawActorOptions,
 ) {
-  const a = pose.a * (opt.alpha ?? 1)
+  const a = pose.a
   if (a <= 0.002 || pose.s <= 0.002) return
   const m = pose.s * mt.m
   const x = pose.x * mt.w + (opt.parallax?.x ?? 0)
   const y = pose.y * mt.h + (opt.parallax?.y ?? 0)
   const rot = pose.r + detentAngle(spec, opt.clock)
+  const away = 1 - clamp(opt.asm ?? 1)
+  const split = SPLIT[spec.shape]
 
-  ctx.save()
-  ctx.translate(x, y)
-  ctx.rotate(rot)
-  ctx.globalAlpha = a
-  ctx.fillStyle = INK_COLOR[spec.ink]
-
-  if (spec.ink === 'paper') {
-    // a paper shape is a knockout punched through the black plate
-    ctx.globalCompositeOperation = 'source-over'
-    pathFor(ctx, spec.shape, m)
-    if (spec.shape === 'ring') {
-      ctx.lineWidth = Math.max(1.5, m * 0.075)
-      ctx.strokeStyle = INK_COLOR.paper
-      ctx.stroke()
+  const drawOne = (piece: { k: number; n: number; mode: SplitMode } | null) => {
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.rotate(rot)
+    ctx.globalAlpha = a
+    if (piece) {
+      const off = pieceOffset(piece.mode, piece.k, piece.n, m, away)
+      ctx.translate(off.dx, off.dy)
+      ctx.rotate(off.rot)
+      piecePath(ctx, piece.mode, piece.k, piece.n, m)
+      ctx.clip()
+    }
+    ctx.fillStyle = INK_COLOR[spec.ink]
+    if (spec.ink === 'paper') {
+      ctx.globalCompositeOperation = 'source-over'
+      pathFor(ctx, spec.shape, m)
+      if (spec.shape === 'ring') {
+        ctx.lineWidth = Math.max(1.5, m * 0.075)
+        ctx.strokeStyle = INK_COLOR.paper
+        ctx.stroke()
+      } else {
+        ctx.fill()
+      }
     } else {
-      ctx.fill()
-    }
-  } else {
-    // ink overprints multiply into the paper — and into each other
-    ctx.globalCompositeOperation = 'multiply'
-    pathFor(ctx, spec.shape, m)
-    if (spec.shape === 'ring') {
-      ctx.lineWidth = Math.max(1.5, m * 0.075)
-      ctx.strokeStyle = INK_COLOR[spec.ink]
-      ctx.stroke()
-    } else {
-      // slight plate misregistration: a second strike a hair off the first
-      ctx.globalAlpha = a * 0.16
-      ctx.translate(1.4, -1.1)
-      ctx.fill()
-      ctx.translate(-1.4, 1.1)
-      ctx.globalAlpha = a
-      ctx.fill()
-    }
-  }
-  ctx.restore()
-}
-
-/* --------------------------------------------------------------- curtain */
-
-const BARS = 12
-const TILE_COLS = 8
-const TILE_ROWS = 5
-const SHUTTER = 6
-
-/** The plate that closes over the page: every navigation is one mechanical verb. */
-export function drawCurtain(ctx: CanvasRenderingContext2D, mt: Metrics, s: CurtainState) {
-  const p = clamp(s.p)
-  if (p <= 0.0005) return
-  const q = s.revealing ? 1 - p : p
-
-  ctx.save()
-  ctx.fillStyle = INK_COLOR.ink
-
-  /** staggered local progress: 0 = open, 1 = this part of the plate has landed */
-  const local = (base: number, index: number, count: number, step: number, reverse: boolean) => {
-    const maxOff = (count - 1) * step
-    const i = reverse ? count - 1 - index : index
-    return io2(clamp((base - i * step) / (1 - maxOff)))
-  }
-
-  if (s.gesture === 'bars') {
-    // twelve columns, exactly on the modular grid, printed left to right
-    const bw = mt.w / BARS + 0.5
-    for (let i = 0; i < BARS; i++) {
-      const l = s.revealing ? 1 - local(q, i, BARS, 0.032, true) : local(q, i, BARS, 0.032, false)
-      if (l <= 0.001) continue
-      ctx.fillStyle = i === 5 ? INK_COLOR.red : i === 9 ? INK_COLOR.blue : INK_COLOR.ink
-      const hh = mt.h * l
-      ctx.fillRect(i * bw, s.revealing ? 0 : mt.h - hh, bw, hh)
-    }
-  } else if (s.gesture === 'shutter') {
-    const bh = mt.h / SHUTTER + 0.5
-    for (let i = 0; i < SHUTTER; i++) {
-      const l = s.revealing
-        ? 1 - local(q, i, SHUTTER, 0.07, true)
-        : local(q, i, SHUTTER, 0.07, false)
-      if (l <= 0.001) continue
-      const ww = mt.w * l
-      const x = i % 2 === 0 ? 0 : mt.w - ww
-      ctx.fillStyle = i === 2 ? INK_COLOR.blue : INK_COLOR.ink
-      ctx.fillRect(x, i * bh, ww, bh)
-    }
-  } else if (s.gesture === 'tiles') {
-    const cw = mt.w / TILE_COLS
-    const ch = mt.h / TILE_ROWS
-    const rows = TILE_COLS + TILE_ROWS - 1
-    for (let r = 0; r < TILE_ROWS; r++) {
-      for (let c = 0; c < TILE_COLS; c++) {
-        const rank = c + r
-        const l = s.revealing
-          ? 1 - local(q, rank, rows, 0.045, true)
-          : local(q, rank, rows, 0.045, false)
-        if (l <= 0.001) continue
-        ctx.fillStyle = (c * 3 + r) % 11 === 0 ? INK_COLOR.yellow : INK_COLOR.ink
-        const hh = ch * l
-        ctx.fillRect(c * cw, r * ch + (ch - hh) / 2, cw + 0.5, hh)
+      ctx.globalCompositeOperation = 'multiply'
+      pathFor(ctx, spec.shape, m)
+      if (spec.shape === 'ring') {
+        ctx.lineWidth = Math.max(1.5, m * 0.075)
+        ctx.strokeStyle = INK_COLOR[spec.ink]
+        ctx.stroke()
+      } else {
+        // slight plate misregistration: a second strike a hair off the first
+        ctx.globalAlpha = a * 0.16
+        ctx.translate(1.4, -1.1)
+        ctx.fill()
+        ctx.translate(-1.4, 1.1)
+        ctx.globalAlpha = a
+        ctx.fill()
       }
     }
-  } else {
-    // two quarter-plates sweeping from opposite corners
-    const e = io2(q)
-    const r = Math.hypot(mt.w, mt.h) * 1.02
-    const swing = s.revealing ? e : 1 - e
-    ctx.save()
-    ctx.beginPath()
-    ctx.moveTo(0, 0)
-    ctx.arc(0, 0, r, 90 * DEG * swing, 90 * DEG * swing + Math.PI / 2)
-    ctx.closePath()
-    ctx.fillStyle = INK_COLOR.ink
-    ctx.fill()
     ctx.restore()
-    ctx.save()
-    ctx.translate(mt.w, mt.h)
-    const b0 = Math.PI + 90 * DEG * swing
-    ctx.beginPath()
-    ctx.moveTo(0, 0)
-    ctx.arc(0, 0, r, b0, b0 + Math.PI / 2)
-    ctx.closePath()
-    ctx.fillStyle = INK_COLOR.ink
-    ctx.fill()
-    ctx.restore()
-    const accent = s.revealing ? 1 - e : e
-    if (accent > 0.12) {
-      // a red plate rides underneath for one beat
-      ctx.save()
-      ctx.globalAlpha = clamp((accent - 0.12) * 2.4) * 0.92
-      ctx.fillStyle = INK_COLOR.red
-      ctx.beginPath()
-      ctx.moveTo(mt.w, 0)
-      ctx.arc(mt.w, 0, r * 0.5, Math.PI * 0.78, Math.PI * 1.22)
-      ctx.closePath()
-      ctx.fill()
-      ctx.restore()
-    }
   }
 
-  if (p > 0.965) {
-    ctx.globalAlpha = 1
-    ctx.fillStyle = INK_COLOR.ink
-    ctx.fillRect(0, 0, mt.w, mt.h)
+  if (!split || away <= 0.002) {
+    drawOne(null)
+    return
   }
-  ctx.restore()
+  for (let k = 0; k < split.n; k++) {
+    drawOne({ k, n: split.n, mode: split.mode })
+  }
 }
+
