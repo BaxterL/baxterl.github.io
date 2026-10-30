@@ -63,7 +63,7 @@ export const POSES: Record<SectionId, Record<string, Pose>> = {
     discRed: { x: 0.655, y: 0.3, s: 2.9, r: 0, a: 1 },
     ringInk: { x: 0.545, y: 0.225, s: 1.0, r: 0, a: 1 },
     discYellow: { x: 0.795, y: 0.135, s: 0.45, r: 0, a: 1 },
-    barInk: { x: 0.845, y: 0.17, s: 0.85, r: 0, a: 1 },
+    barInk: { x: 0.845, y: 0.3, s: 0.85, r: 0, a: 1 },
     triYellow: { x: 0.615, y: 0.79, s: 2.6, r: 0, a: 1 },
     quadBlue: { x: 0.865, y: 0.62, s: 2.2, r: 180 * DEG, a: 1 },
     dotsInk: { x: 0.72, y: 0.5, s: 0.42, r: 0, a: 0.55 },

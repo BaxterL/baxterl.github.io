@@ -43,10 +43,9 @@ export function Masthead({
       </div>
       <div className="masthead__meta">
         <span>
-          PERSONAL INDEX <b>00—05</b>
+          INDEX <b>00—05</b>
         </span>
-        <span>REV. {SITE.year}</span>
-        <span>SINGLE VIEWPORT · 无滚动</span>
+        <span>2019—2026</span>
       </div>
       <SoundButton soundOn={soundOn} onToggleSound={onToggleSound} className="sound--masthead" />
     </header>
@@ -104,7 +103,7 @@ export function Rail({
       </span>
       <span className="rail__hint">
         <span className="kbd">PLAY</span>
-        点击切换 · 开启后可用滚轮 / 方向键 · {SITE.location}
+        点击切换 · 开启后用滚轮 / 方向键
       </span>
       <SoundButton soundOn={soundOn} onToggleSound={onToggleSound} className="sound--rail" />
     </footer>
