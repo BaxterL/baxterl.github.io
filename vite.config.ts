@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+﻿import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // GitHub Pages (user site) serves the contents of docs/.
@@ -13,7 +13,8 @@ export default defineConfig({
     target: 'es2020',
   },
   server: {
-    port: 5173,
-    strictPort: true,
+    port: 5179,
+    strictPort: false,
   },
 })
+
