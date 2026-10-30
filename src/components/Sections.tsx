@@ -134,6 +134,11 @@ function Work({ go }: { go: (s: SectionId) => void }) {
                         ★
                       </i>
                     )}
+                    {w.href && (
+                      <i className="tl-card__go" title="可打开">
+                        ↗
+                      </i>
+                    )}
                     <span className="tl-card__title">{w.title}</span>
                     <span className="tl-card__sub">{w.sub}</span>
                   </Tag>

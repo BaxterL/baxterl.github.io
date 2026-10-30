@@ -2591,3 +2591,23 @@ button {
 .play.is-on .play__dot {
   background: var(--red);
 }
+
+/* timeline: clickable cards get an arrow, non-clickable ones stay legible */
+.tl-card.is-flat {
+  opacity: 1;
+  background: rgba(241, 233, 218, 0.6);
+}
+
+.tl-card__go {
+  position: absolute;
+  right: 7px;
+  bottom: 4px;
+  font-size: 0.62rem;
+  line-height: 1;
+  font-style: normal;
+  color: var(--ink-40);
+}
+
+.tl-card:hover .tl-card__go {
+  color: var(--red);
+}

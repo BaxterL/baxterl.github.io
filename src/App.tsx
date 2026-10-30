@@ -3,7 +3,7 @@ import { Book } from './components/Book'
 import { Masthead, Nav, Rail } from './components/Chrome'
 import { FlipField, type FlipHandle } from './components/FlipField'
 import { SectionView } from './components/Sections'
-import { SECTION_META, SECTION_ORDER, type SectionId } from './core/poses'
+import { SECTION_ORDER, type SectionId } from './core/poses'
 import { PosterEngine } from './core/engine'
 import type { Gesture } from './core/painter'
 import { SoundKit } from './core/sound'
@@ -233,37 +233,6 @@ export default function App() {
         <SectionView section={section} go={navigate} />
       </main>
 
-      <div className="pager" aria-label="切换页面">
-        <button
-          type="button"
-          className="pager__btn"
-          onClick={() =>
-            navigate(
-              SECTION_ORDER[
-                (SECTION_ORDER.indexOf(section) - 1 + SECTION_ORDER.length) % SECTION_ORDER.length
-              ],
-            )
-          }
-          aria-label="上一节"
-        >
-          ←
-        </button>
-        <span className="pager__num">
-          {SECTION_META[section].num}
-          <i>/ 05</i>
-        </span>
-        <button
-          type="button"
-          className="pager__btn"
-          onClick={() =>
-            navigate(SECTION_ORDER[(SECTION_ORDER.indexOf(section) + 1) % SECTION_ORDER.length])
-          }
-          aria-label="下一节"
-        >
-          →
-        </button>
-      </div>
-
       <Rail
         soundOn={soundEnabled}
         onToggleSound={toggleSound}
@@ -274,6 +243,7 @@ export default function App() {
     </div>
   )
 }
+
 
 
 
