@@ -1580,3 +1580,223 @@ button {
 
 
 
+
+/* ==========================================================================
+   About — stack pills
+   ========================================================================== */
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.pills__label {
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.24em;
+  color: var(--ink-55);
+  margin-right: 4px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.34em 0.62em 0.3em;
+  border: 1px solid var(--hair-strong);
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.18);
+  transition: background 0.2s linear, border-color 0.2s linear;
+}
+
+.pill:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.section__body p {
+  margin: 0 0 0.55em;
+}
+
+.section__body p:last-child {
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Work — horizontal year timeline
+   ========================================================================== */
+
+.section--work .stack {
+  grid-column: 1 / 13;
+}
+
+.section--work .section__title {
+  font-size: clamp(2.1rem, 4.4vw, 4.2rem);
+}
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  column-gap: clamp(6px, 0.9vw, 14px);
+  width: 100%;
+  border-top: 1px solid var(--ink);
+  padding-top: 9px;
+}
+
+.tl-col {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.tl-tick {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.16em;
+  color: var(--ink);
+}
+
+.tl-tick i {
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+}
+
+.tl-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tl-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 8px 6px 11px;
+  border: 1px solid var(--hair-strong);
+  background: rgba(241, 233, 218, 0.9);
+  overflow: hidden;
+  transition:
+    transform 0.28s var(--ease-mech),
+    border-color 0.2s linear,
+    background 0.2s linear;
+}
+
+.tl-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--c, var(--ink));
+}
+
+.tl-card:hover,
+.tl-card:focus-visible,
+.tl-card.is-hot {
+  transform: translateY(-2px);
+  background: rgba(255, 252, 244, 0.97);
+  border-color: var(--ink);
+}
+
+.tl-card.is-flat {
+  opacity: 0.5;
+}
+
+.tl-card__dot {
+  display: none;
+}
+
+.tl-card__title {
+  font-family: var(--sans-cjk);
+  font-weight: 700;
+  font-size: clamp(0.66rem, 0.78vw, 0.78rem);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+.tl-card__sub {
+  font-family: var(--mono);
+  font-size: clamp(0.5rem, 0.56vw, 0.57rem);
+  letter-spacing: 0.04em;
+  color: var(--ink-40);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tl-caption {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  border-top: 1px solid var(--hair);
+  padding-top: 8px;
+  min-height: 2.4em;
+}
+
+.tl-caption__tag {
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.14em;
+  color: var(--red);
+  white-space: nowrap;
+}
+
+.tl-caption__desc {
+  font-family: var(--sans-cjk);
+  font-size: var(--fs-body);
+  line-height: 1.5;
+  color: var(--ink-70);
+}
+
+@media (max-width: 1024px) {
+  .section--work .stack {
+    grid-column: 1 / -1;
+  }
+
+  .timeline {
+    grid-template-columns: repeat(6, 160px);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 768px) {
+  .section--about .facts {
+    display: none;
+  }
+
+  .section__body {
+    font-size: 0.78rem;
+    line-height: 1.62;
+  }
+
+  .section--work .section__title {
+    font-size: clamp(1.7rem, 8.6vw, 2.4rem);
+  }
+
+  .timeline {
+    grid-template-columns: repeat(6, 148px);
+  }
+
+  .tl-caption__desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+

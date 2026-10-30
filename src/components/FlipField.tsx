@@ -2,23 +2,8 @@
 import { gsap } from 'gsap'
 
 export interface FlipHandle {
-  cover: (label?: string) => Promise<void>
+  cover: () => Promise<void>
   reveal: () => Promise<void>
-}
-
-/** 5×7 bitmap digits — the wall is a flip-dot board, so the backs spell the
- *  section we are turning to. */
-const GLYPH: Record<string, string[]> = {
-  '0': ['01110', '10001', '10001', '10001', '10001', '10001', '01110'],
-  '1': ['00100', '01100', '00100', '00100', '00100', '00100', '01110'],
-  '2': ['01110', '10001', '00001', '00010', '00100', '01000', '11111'],
-  '3': ['11111', '00010', '00100', '00010', '00001', '10001', '01110'],
-  '4': ['00010', '00110', '01010', '10010', '11111', '00010', '00010'],
-  '5': ['11111', '10000', '11110', '00001', '00001', '10001', '01110'],
-  '6': ['00110', '01000', '10000', '11110', '10001', '10001', '01110'],
-  '7': ['11111', '00001', '00010', '00100', '01000', '01000', '01000'],
-  '8': ['01110', '10001', '10001', '01110', '10001', '10001', '01110'],
-  '9': ['01110', '10001', '10001', '01111', '00001', '00010', '01100'],
 }
 
 /** A wall of cards that flip away to swap the page underneath.
@@ -61,41 +46,11 @@ export const FlipField = forwardRef<FlipHandle>(function FlipField(_props, ref) 
       return (row + col) % 2 === 0 ? 1 : -1
     })
 
-  /** paint the backs: a bitmap section number, everything else ink */
-  const paintBacks = (label: string) => {
-    const backs = Array.from(
-      fieldRef.current?.querySelectorAll<HTMLElement>('.flipfield__face--back') ?? [],
-    )
-    const wide = grid.cols >= 13 && grid.rows >= 9
-    const chars = wide ? label.slice(0, 2).split('') : [label.slice(-1)]
-    const pitch = wide ? 6 : 5
-    const glyphRows = 7
-    const offX = Math.floor((grid.cols - (chars.length * pitch - 1)) / 2)
-    const offY = Math.floor((grid.rows - glyphRows) / 2)
-    const on = new Set<number>()
-    chars.forEach((ch, ci) => {
-      const rows = GLYPH[ch] ?? GLYPH['0']
-      rows.forEach((rowStr, ry) => {
-        rowStr.split('').forEach((bit, rx) => {
-          if (bit !== '1') return
-          const col = offX + ci * pitch + rx
-          const row = offY + ry
-          if (col < 0 || col >= grid.cols || row < 0 || row >= grid.rows) return
-          on.add(row * grid.cols + col)
-        })
-      })
-    })
-    backs.forEach((el, i) => {
-      el.style.background = on.has(i) ? 'var(--red)' : 'var(--ink)'
-    })
-  }
-
   useImperativeHandle(
     ref,
     () => ({
-      cover: (label = '00') =>
+      cover: () =>
         new Promise<void>((resolve) => {
-          paintBacks(label)
           if (reduceRef.current) return resolve()
           const els = tiles()
           const dir = dirs(els.length)
@@ -168,4 +123,5 @@ export const FlipField = forwardRef<FlipHandle>(function FlipField(_props, ref) 
     </div>
   )
 })
+
 

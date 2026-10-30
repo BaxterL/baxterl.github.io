@@ -98,13 +98,13 @@ export const POSES: Record<SectionId, Record<string, Pose>> = {
 
   /* 02 — work: three plates stacked like a legend for the three cards */
   work: {
-    sqBlue: { x: 0.78, y: 0.25, s: 0.9, r: 0, a: 1 },
-    quadYellow: { x: 0.78, y: 0.43, s: 1.0, r: 0, a: 1 },
-    discRed: { x: 0.78, y: 0.63, s: 0.8, r: 0, a: 1 },
-    ringInk: { x: 0.62, y: 0.3, s: 0.9, r: 0, a: 0.9 },
-    triYellow: { x: 0.6, y: 0.86, s: 1.3, r: 0, a: 0.95 },
-    barInk: { x: 0.845, y: 0.66, s: 0.8, r: 0, a: 1 },
-    dotsInk: { x: 0.69, y: 0.52, s: 0.38, r: 0, a: 0.5 },
+    sqBlue: { x: 0.76, y: 0.16, s: 0.9, r: 0, a: 1 },
+    quadYellow: { x: 0.8, y: 0.33, s: 1.05, r: 0, a: 1 },
+    discRed: { x: 0.645, y: 0.3, s: 0.8, r: 0, a: 1 },
+    ringInk: { x: 0.575, y: 0.19, s: 0.95, r: 0, a: 0.95 },
+    triYellow: { x: 0.6, y: 0.86, s: 1.3, r: 0, a: 0 },
+    barInk: { x: 0.855, y: 0.4, s: 0.75, r: 0, a: 1 },
+    dotsInk: { x: 0.7, y: 0.42, s: 0.34, r: 0, a: 0.5 },
     discYellow: off(0.865, 0.42),
     halfRed: off(0.02, 0.66),
     quadBlue: off(0.74, 0.56),
@@ -187,13 +187,9 @@ export const POSES_M: Record<SectionId, Record<string, Pose>> = {
     dotsInk: { x: 0.7, y: 0.5, s: 0.4, r: 0, a: 0.45 },
   },
   work: {
-    sqBlue: { x: 0.7, y: 0.5, s: 0.8, r: 0, a: 1 },
-    quadYellow: { x: 0.72, y: 0.66, s: 0.9, r: 0, a: 1 },
-    discRed: { x: 0.68, y: 0.82, s: 0.7, r: 0, a: 1 },
-    ringInk: { x: 0.3, y: 0.58, s: 0.9, r: 0, a: 0.85 },
-    triYellow: { x: 0.88, y: 0.9, s: 1.2, r: 0, a: 0.9 },
-    barInk: { x: 0.06, y: 0.7, s: 0.7, r: 0, a: 1 },
-    dotsInk: { x: 0.18, y: 0.48, s: 0.36, r: 0, a: 0.45 },
+    sqBlue: { x: 0.9, y: 0.11, s: 0.4, r: 0, a: 1 },
+    discRed: { x: 0.82, y: 0.17, s: 0.34, r: 0, a: 1 },
+    ringInk: { x: 0.7, y: 0.1, s: 0.4, r: 0, a: 0.7 },
   },
   links: {
     discRed: { x: 0.6, y: 0.5, s: 1.1, r: 0, a: 1 },
@@ -214,4 +210,5 @@ export const POSES_M: Record<SectionId, Record<string, Pose>> = {
     barInk: { x: 0.06, y: 0.58, s: 0.6, r: 0, a: 1 },
   },
 }
+
 

@@ -1,5 +1,5 @@
-﻿import type { CSSProperties } from 'react'
-import { LEGACY, LINKS, SITE, WORK } from '../content'
+import { useState, type CSSProperties } from 'react'
+import { ABOUT, FACTS, LEGACY, LINKS, PHASES, SITE, STACK, WORK, YEARS } from '../content'
 import type { SectionId } from '../core/poses'
 
 const r = (i: number): CSSProperties => ({ '--i': i } as CSSProperties)
@@ -75,39 +75,31 @@ function About({ go }: { go: (s: SectionId) => void }) {
   return (
     <>
       <Head meta="01" kicker="ABOUT · 关于" />
-      <Title zh="做指令的人" />
+      <Title zh="做东西的人" latin="ABOUT" />
       <div className="section__body reveal" style={r(3)}>
-        <p>
-          在 Minecraft 里写命令、做计分板优化、给地图写逻辑。遇到重复的活就顺手写成工具，比如那棵
-          <a className="ink-link" href="/scbtree.html">
-            计分板树
-          </a>
-          。
-        </p>
-        <p>
-          也折腾网页动效和 DeepSeek Harness 插件。喜欢包豪斯的那套规矩：东西都要落在线上，颜色只留三种，动效不许回弹。
-        </p>
+        {ABOUT.map((p) => (
+          <p key={p.slice(0, 8)}>{p}</p>
+        ))}
       </div>
-      <dl className="facts reveal" style={r(4)}>
-        <div>
-          <dt>现在</dt>
-          <dd>计分板树生成器 · dsh-code-taste</dd>
-        </div>
-        <div>
-          <dt>工具</dt>
-          <dd>TypeScript / Python / Canvas / GSAP</dd>
-        </div>
-        <div>
-          <dt>坐标</dt>
-          <dd>UTC+8</dd>
-        </div>
+      <div className="pills reveal" style={r(4)} aria-label="技术栈">
+        <span className="pills__label">STACK</span>
+        {STACK.map((s) => (
+          <span className="pill" key={s}>
+            {s}
+          </span>
+        ))}
+      </div>
+      <dl className="facts reveal" style={r(5)}>
+        {FACTS.map((f) => (
+          <div key={f.k}>
+            <dt>{f.k}</dt>
+            <dd>{f.v}</dd>
+          </div>
+        ))}
       </dl>
-      <blockquote className="quote reveal" style={r(5)}>
-        “我没有说过这句话。” <cite>— 旧站第二个页面</cite>
-      </blockquote>
       <div className="section__foot reveal" style={r(6)}>
         <button className="btn" onClick={() => go('work')}>
-          看看做了什么 <span className="btn__arrow">→</span>
+          看看做过什么 <span className="btn__arrow">→</span>
         </button>
       </div>
     </>
@@ -115,30 +107,53 @@ function About({ go }: { go: (s: SectionId) => void }) {
 }
 
 function Work({ go }: { go: (s: SectionId) => void }) {
+  const [hover, setHover] = useState<string | null>(null)
+  const current = WORK.find((w) => w.id === hover)
   return (
     <>
-      <Head meta="02" kicker="WORK · 作品" />
-      <Title zh="三个小东西" />
-      <div className="cards">
-        {WORK.map((w, i) => (
-          <a
-            className="card reveal"
-            key={w.num}
-            href={w.href}
-            style={{ ...r(3 + i), '--card-color': w.color } as CSSProperties}
-          >
-            <div className="card__top">
-              <span>{w.num}</span>
-              <span>{w.cta}</span>
+      <Head meta="02" kicker="WORK · 作品 2020—2025" />
+      <Title zh="十三个东西" />
+      <div className="timeline reveal" style={r(2)} onPointerLeave={() => setHover(null)}>
+        {YEARS.map((year) => (
+          <div className="tl-col" key={year}>
+            <div className="tl-tick">
+              <i />
+              {year}
             </div>
-            <h2 className="card__title">{w.title}</h2>
-            <p className="card__desc">{w.desc}</p>
-            <div className="card__foot">
-              <span>打开</span>
-              <span className="arrow">→</span>
+            <div className="tl-stack">
+              {WORK.filter((w) => w.year === year).map((w) => {
+                const Tag = w.href ? 'a' : 'div'
+                return (
+                  <Tag
+                    key={w.id}
+                    className={`tl-card${hover === w.id ? ' is-hot' : ''}${
+                      w.href ? '' : ' is-flat'
+                    }`}
+                    href={w.href}
+                    {...(w.href?.startsWith('http')
+                      ? { target: '_blank', rel: 'noreferrer' }
+                      : {})}
+                    onPointerEnter={() => setHover(w.id)}
+                    onFocus={() => setHover(w.id)}
+                    style={{ '--c': PHASES[w.phase].color } as CSSProperties}
+                  >
+                    <i className="tl-card__dot" />
+                    <span className="tl-card__title">{w.title}</span>
+                    <span className="tl-card__sub">{w.sub}</span>
+                  </Tag>
+                )
+              })}
             </div>
-          </a>
+          </div>
         ))}
+      </div>
+      <div className="tl-caption reveal" style={r(5)}>
+        <span className="tl-caption__tag">
+          {current ? `${current.year} · ${PHASES[current.phase].zh}` : '2020 → 2025'}
+        </span>
+        <span className="tl-caption__desc">
+          {current ? current.desc : '13 件作品 · 悬停查看细节，点击打开'}
+        </span>
       </div>
       <div className="section__foot reveal" style={r(6)}>
         <button className="btn" onClick={() => go('links')}>
@@ -160,7 +175,7 @@ function Links() {
             className="link-row reveal"
             key={l.num}
             href={l.href}
-            style={r(3 + i)}
+            style={r(2 + i)}
             {...(l.external ? { target: '_blank', rel: 'noreferrer' } : {})}
           >
             <span className="link-row__num">{l.num}</span>
@@ -234,4 +249,3 @@ function Archive({ go }: { go: (s: SectionId) => void }) {
     </>
   )
 }
-

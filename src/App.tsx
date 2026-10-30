@@ -3,11 +3,16 @@ import { Book } from './components/Book'
 import { Masthead, Nav, Rail } from './components/Chrome'
 import { FlipField, type FlipHandle } from './components/FlipField'
 import { SectionView } from './components/Sections'
-import { SECTION_META, SECTION_ORDER, type SectionId } from './core/poses'
+import { SECTION_ORDER, type SectionId } from './core/poses'
 import { PosterEngine } from './core/engine'
+import type { Gesture } from './core/painter'
 import { SoundKit } from './core/sound'
 
 const hashFor = (s: SectionId) => (s === 'home' ? '#/' : `#/${s}`)
+
+/** five mechanical verbs; the flip wall is one of them */
+type Verb = Gesture | 'flip'
+const GESTURES: Verb[] = ['bars', 'flip', 'disc', 'shutter', 'tiles']
 
 function parseHash(): { book: boolean; section: SectionId } {
   const raw = window.location.hash.replace(/^#\/?/, '').trim()
@@ -36,12 +41,14 @@ export default function App() {
   const busyRef = useRef(false)
   const enterTimer = useRef(0)
   const posterRef = useRef<HTMLCanvasElement>(null)
+  const curtainRef = useRef<HTMLCanvasElement>(null)
+  const gestureRef = useRef(0)
 
   /* ------------------------------------------------- engine / intro / input */
   useEffect(() => {
     const engine = new PosterEngine({ sound: (cue, gain) => kitRef.current?.play(cue, gain) })
     engineRef.current = engine
-    if (posterRef.current) engine.attach(posterRef.current)
+    if (posterRef.current && curtainRef.current) engine.attach(posterRef.current, curtainRef.current)
 
     const onResize = () => engine.resize()
     const onPointer = (e: PointerEvent) => {
@@ -52,7 +59,7 @@ export default function App() {
     }
     window.addEventListener('resize', onResize)
     window.addEventListener('pointermove', onPointer, { passive: true })
-    void engine.playIntro()
+    void engine.playIntro(initial.current.section)
     const enter = window.setTimeout(() => setEntering(true), 1020)
 
     return () => {
@@ -84,14 +91,18 @@ export default function App() {
     kitRef.current?.play('whoosh', 0.8)
 
     const run = async () => {
-      await flipRef.current?.cover(SECTION_META[next].num)
+      // five mechanical verbs, cycled — never the same transition twice in a row
+      const gesture = GESTURES[gestureRef.current++ % GESTURES.length]
+      if (gesture === 'flip') await flipRef.current?.cover()
+      else await engine.curtainCover(gesture)
       sectionRef.current = next
       setSection(next)
       setEntering(false)
       window.history.replaceState(null, '', hashFor(next))
       engine.morphTo(next)
       kitRef.current?.play('clack')
-      const revealed = flipRef.current?.reveal()
+      const revealed =
+        gesture === 'flip' ? flipRef.current?.reveal() : engine.curtainReveal()
       enterTimer.current = window.setTimeout(() => setEntering(true), 170)
       await revealed
       busyRef.current = false
@@ -188,6 +199,7 @@ export default function App() {
   return (
     <div className="app" onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
       <canvas ref={posterRef} className="plate plate--poster" aria-hidden="true" />
+      <canvas ref={curtainRef} className="plate plate--curtain" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
       <FlipField ref={flipRef} />
       <div className="frame-marks" aria-hidden="true" />
@@ -210,4 +222,6 @@ export default function App() {
     </div>
   )
 }
+
+
 

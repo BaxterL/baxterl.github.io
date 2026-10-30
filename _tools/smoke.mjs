@@ -97,10 +97,10 @@ check('home title animated in', Number(visible.o) > 0.9, JSON.stringify(visible)
 await evaluate(`[...document.querySelectorAll('.index__item')].find(b => b.textContent.includes('作品')).click()`)
 await sleep(1400)
 const workTitle = await evaluate(`document.querySelector('.section__title')?.innerText.replace(/\\s+/g,' ')`)
-check('nav → 作品', /三个小东西/.test(workTitle ?? ''), workTitle)
+check('nav → 作品', /十三个东西/.test(workTitle ?? ''), workTitle)
 check('hash updated', (await evaluate('location.hash')) === '#/work', await evaluate('location.hash'))
-const cards = await evaluate(`document.querySelectorAll('.card').length`)
-check('three work cards', cards === 3, String(cards))
+const cards = await evaluate(`document.querySelectorAll('.tl-card').length`)
+check('13 timeline cards', cards === 13, String(cards))
 
 // keyboard → next section
 await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 }, sessionId)
@@ -143,4 +143,6 @@ if (errors.length) console.log('--- exceptions ---\n' + errors.join('\n'))
 ws.close()
 chrome.kill()
 process.exit(results.some((r) => r.startsWith('FAIL')) ? 1 : 0)
+
+
 

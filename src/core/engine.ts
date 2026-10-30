@@ -1,6 +1,6 @@
 ﻿import { gsap } from 'gsap'
 import { METRICS, type Metrics } from './layout'
-import { drawActor, drawGrid } from './painter'
+import { drawActor, drawCurtain, drawGrid, type CurtainState, type Gesture } from './painter'
 import { ACTORS, POSES, POSES_M, type ActorSpec, type Pose, type SectionId } from './poses'
 
 interface ActorState {
@@ -17,7 +17,11 @@ const HIDDEN: Pose = { x: 0.5, y: 0.5, s: 0.001, r: 0, a: 0 }
 /** Owns the poster plate and the mechanical clock. */
 export class PosterEngine {
   private posterEl: HTMLCanvasElement | null = null
+  private curtainEl: HTMLCanvasElement | null = null
   private pctx: CanvasRenderingContext2D | null = null
+  private cctx: CanvasRenderingContext2D | null = null
+  private curtain: CurtainState = { p: 0, gesture: 'bars', revealing: false }
+  private curtainTl: gsap.core.Animation | null = null
   private dpr = 1
   private mt: Metrics = METRICS(1440, 900)
   private portrait = false
@@ -49,11 +53,44 @@ export class PosterEngine {
     this.order = ACTORS.map((_, i) => i).sort((a, b) => z(ACTORS[a]) - z(ACTORS[b]))
   }
 
-  attach(poster: HTMLCanvasElement) {
+  attach(poster: HTMLCanvasElement, curtain: HTMLCanvasElement) {
     this.posterEl = poster
+    this.curtainEl = curtain
     this.pctx = poster.getContext('2d')
+    this.cctx = curtain.getContext('2d')
     this.resize()
     this.start()
+  }
+
+  /** One of the mechanical plates: close, then peel. */
+  curtainCover(gesture: Gesture): Promise<void> {
+    this.curtainTl?.kill()
+    this.curtain.gesture = gesture
+    this.curtain.revealing = false
+    return new Promise((resolve) => {
+      this.curtainTl = gsap.fromTo(
+        this.curtain,
+        { p: 0 },
+        { p: 1, duration: 0.46, ease: 'power2.in', onComplete: resolve },
+      )
+    })
+  }
+
+  curtainReveal(): Promise<void> {
+    this.curtainTl?.kill()
+    this.curtain.revealing = true
+    return new Promise((resolve) => {
+      this.curtainTl = gsap.to(this.curtain, {
+        p: 0,
+        duration: 0.54,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          this.curtain.revealing = false
+          this.curtain.p = 0
+          resolve()
+        },
+      })
+    })
   }
 
   resize() {
@@ -66,8 +103,11 @@ export class PosterEngine {
     const flipped = portrait !== this.portrait
     this.portrait = portrait
     this.dpr = Math.min(2, window.devicePixelRatio || 1)
-    this.posterEl.width = Math.round(w * this.dpr)
-    this.posterEl.height = Math.round(h * this.dpr)
+    for (const el of [this.posterEl, this.curtainEl]) {
+      if (!el) continue
+      el.width = Math.round(w * this.dpr)
+      el.height = Math.round(h * this.dpr)
+    }
     if (flipped) this.snapTo(this.current)
     this.render()
   }
@@ -128,6 +168,11 @@ export class PosterEngine {
     const { w, h } = this.mt
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
     ctx.clearRect(0, 0, w, h)
+    if (this.cctx) {
+      this.cctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0)
+      this.cctx.clearRect(0, 0, w, h)
+      drawCurtain(this.cctx, this.mt, this.curtain)
+    }
     drawGrid(ctx, this.mt, this.grid.v)
     for (const i of this.order) {
       const { spec, pose, asm } = this.actors[i]
@@ -140,13 +185,13 @@ export class PosterEngine {
   }
 
   /** Landing choreography: the grid draws, then the plates are assembled piece by piece. */
-  playIntro(): Promise<void> {
+  playIntro(start: SectionId = 'home'): Promise<void> {
     this.introTl?.kill()
-    this.current = 'home'
+    this.current = start
     if (this.reduce) {
       this.grid.v = 1
       this.actors.forEach((a) => (a.asm = 1))
-      this.snapTo('home')
+      this.snapTo(start)
       return Promise.resolve()
     }
     const tl = gsap.timeline()
@@ -154,7 +199,7 @@ export class PosterEngine {
     tl.fromTo(this.grid, { v: 0 }, { v: 1, duration: 1.1, ease: 'power2.out' }, 0)
     this.actors.forEach((actor, i) => {
       const { spec, pose } = actor
-      const target = this.poseOf('home', spec.id)
+      const target = this.poseOf(start, spec.id)
       pose.x = target.x
       pose.y = target.y + 0.1
       pose.s = target.s
@@ -180,7 +225,7 @@ export class PosterEngine {
     this.introTl = null
     this.grid.v = 1
     this.actors.forEach((a) => (a.asm = 1))
-    this.snapTo('home')
+    this.snapTo(this.current)
   }
 
   /** Re-print the poster for a new section: pieces scatter, then snap together. */
@@ -211,6 +256,7 @@ export class PosterEngine {
     this.stop()
     this.introTl?.kill()
     this.morphTl?.kill()
+    this.curtainTl?.kill()
     gsap.killTweensOf(this.grid)
     this.actors.forEach((actor) => {
       gsap.killTweensOf(actor.pose)
@@ -218,4 +264,8 @@ export class PosterEngine {
     })
   }
 }
+
+
+
+
 
