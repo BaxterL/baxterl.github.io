@@ -1,42 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>凛冬初十的个人主页</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <link rel="stylesheet" type="text/css" href="css/markdown.css" />
-    <script src='js/showdown.js'></script>
-</head>
-</head>
-<body>
-    <div class="spec_hover">
-        <ul>
-            <li style="--clr:#00ade1">
-                <a href="#" data-text="&nbsp;这里" id="link1">&nbsp;这里&nbsp;</a>
-            </li>
-            <li style="--clr:#ff6493">
-                <a href="#" data-text="&nbsp;什么" id="link2">&nbsp;什么&nbsp;</a>
-            </li>
-            <li style="--clr:#ffdd1c">
-                <a href="#" data-text="&nbsp;都没" id="link3">&nbsp;都没&nbsp;</a>
-            </li>
-            <li style="--clr:#00dc82">
-                <a href="#" data-text="&nbsp;有哦" id="link4">&nbsp;有哦&nbsp;</a>
-            </li>
-        </ul>
-    </div>
-    <div class="right-content">
-        <div class="markdown-body">
-            <div id="articleContent">
-                <h2>正在施工的个人网页</h2>
-                <p>Hello World</p>
-            </div>
-            
-        </div>
-    </div>
-    <script src='js/main.js'></script>
-</body>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>凛冬初十 · BAXTERL — 个人索引</title>
+    <meta
+      name="description"
+      content="凛冬初十 / BAXTERL 的个人索引：Minecraft 指令工具、网页动效与一些没用的东西。几何构成 / 包豪斯风格，单屏无滚动。"
+    />
+    <meta name="theme-color" content="#F1E9DA" />
+    <meta name="color-scheme" content="light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content="凛冬初十 · BAXTERL" />
+    <meta property="og:description" content="PERSONAL INDEX · 几何构成 / 包豪斯动效 · 单屏无滚动" />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; font: 16px/1.6 system-ui, sans-serif; background: #f1e9da; color: #111">
+        <h1>凛冬初十 · BAXTERL</h1>
+        <p>这个页面靠 JavaScript 驱动动效，请开启后刷新。静态工具仍然可用：</p>
+        <p><a href="/scbtree.html">计分板树生成器</a> · <a href="/tool.html">URL 编码小工具</a></p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

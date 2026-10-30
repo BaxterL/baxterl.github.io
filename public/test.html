@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>test</title>
+    </head>
+    <body>
+    <button id="sendButton">发送请求</button>
+    <script>
+        const sendButton = document.getElementById("sendButton");
+        sendButton.addEventListener("click", () => {
+        fetch("http://localhost:3000")
+            .then((response) => response.text())
+            .then((data) => console.log(data));
+        });
+        </script>
+    </body>
+</html>

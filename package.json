@@ -1,0 +1,29 @@
+{
+  "name": "baxterl-site",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "BaxterL · 凛冬初十 — personal index. Geometric / Bauhaus motion, single viewport, no scroll.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 4190 --strictPort",
+    "typecheck": "tsc -b --noEmit",
+    "shot": "node _tools/shot.mjs --url http://localhost:4190 --out ../_shots/desk --width 1440 --height 900 --shots home,about,work,links,archive,book",
+    "seq": "node _tools/seq.mjs --url http://localhost:4190 --out ../_shots/seq --click 关于",
+    "smoke": "node _tools/smoke.mjs --url http://localhost:4190"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.13.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11"
+  }
+}
