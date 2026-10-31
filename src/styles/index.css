@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    BAXTERL · 凛冬初十 — 几何构成 / 包豪斯 个人索引
    Design system: cream paper, three primaries, one black, strict modular grid,
    mechanical easing (no overshoot), Swiss typography.
@@ -1860,6 +1860,8 @@ button {
   box-shadow: 12px 12px 0 rgba(17, 17, 17, 0.1);
   color: var(--paper);
   font-family: var(--mono);
+  font-size: clamp(11.5px, 0.88vw, 13px);
+  line-height: 1.6;
   overflow: hidden;
 }
 
@@ -2254,7 +2256,10 @@ button {
 
 .final .term {
   width: min(640px, 100%);
-  height: 300px;
+  /* 7 commands + 7 outputs + the trailing prompt = 15 rows; min-height reserves
+     the space so nothing jumps while it types, auto lets it grow if a line wraps */
+  height: auto;
+  min-height: calc(15 * 1.6em + 64px);
   margin: 0;
   box-shadow: 8px 8px 0 rgba(17, 17, 17, 0.1);
 }
@@ -2332,7 +2337,8 @@ button {
 
   .final .term {
     width: 100%;
-    height: 200px;
+    height: auto;
+    min-height: calc(15 * 1.6em + 64px);
   }
 
   .final__spec {

@@ -1,4 +1,4 @@
-﻿// Smoke test: navigation, command book, keyboard, scroll lock, reduced motion.
+// Smoke test: navigation, command book, keyboard, scroll lock, reduced motion.
 import { spawn } from 'node:child_process'
 
 const args = process.argv.slice(2)
@@ -100,7 +100,7 @@ const workTitle = await evaluate(`document.querySelector('.section__title')?.inn
 check('nav → 作品', /一路做过来/.test(workTitle ?? ''), workTitle)
 check('hash updated', (await evaluate('location.hash')) === '#/work', await evaluate('location.hash'))
 const cards = await evaluate(`document.querySelectorAll('.tl-card').length`)
-check('14 timeline cards', cards === 14, String(cards))
+check('15 timeline cards', cards === 15, String(cards))
 
 // arrows navigate by default
 await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowDown', code: 'ArrowDown', windowsVirtualKeyCode: 40 }, sessionId)
@@ -129,6 +129,23 @@ check('book scrolls internally', canScroll === true)
 await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 }, sessionId)
 await sleep(400)
 check('Escape closes book', (await evaluate(`!document.querySelector('.book')`)) === true)
+
+// terminal must show every line, including the last command's output
+await send('Page.navigate', { url: baseUrl + '/#/terminal' }, sessionId)
+await sleep(7000)
+const termFit = await evaluate(`(() => {
+  const body = document.querySelector('.term__body')
+  const lines = [...document.querySelectorAll('.term__line')]
+  if (!body || !lines.length) return { ok: false, why: 'missing' }
+  const last = lines[lines.length - 1].getBoundingClientRect()
+  const box = body.getBoundingClientRect()
+  return {
+    ok: body.scrollHeight <= body.clientHeight && last.bottom <= box.bottom + 1,
+    hidden: body.scrollHeight - body.clientHeight,
+    rows: lines.length,
+  }
+})()`)
+check('terminal shows every line', termFit.ok === true, JSON.stringify(termFit))
 
 // legacy pages still alive
 const { statusOf } = await import('./http-status.mjs')

@@ -71,9 +71,9 @@ export const WORK: WorkItem[] = [
     id: 'underline-goodjob',
     period: '2022',
     phase: 'mc',
-    title: 'Good Job',
-    sub: '2022 届',
-    desc: 'underline 团队办的 Good Job 活动 2022 届参与作品，和队友一起做的地图。',
+    title: 'Minecraft Good Job',
+    sub: '2022',
+    desc: '和队友一起做的地图。',
   },
   {
     id: 'yeggs-jam',
@@ -81,7 +81,7 @@ export const WORK: WorkItem[] = [
     phase: 'mc',
     title: 'YEGGS Map Jam',
     sub: '2023 · 优胜作品',
-    desc: '2023 YEGGS Map Jam 的优胜作品，完整度最高的一张地图。',
+    desc: '2023 YEGGS Map Jam 的参赛作品，发布在 MineBBS。',
     href: 'https://www.minebbs.com/resources/jam.7386/',
     pick: true,
   },
@@ -97,9 +97,9 @@ export const WORK: WorkItem[] = [
     id: 'goodjob-2024',
     period: '2024',
     phase: 'mc',
-    title: 'Good Job',
-    sub: '2024 届',
-    desc: 'Good Job 2024 届参与作品，同一个活动、不同一届。',
+    title: 'Minecraft Good Job',
+    sub: '2024',
+    desc: '参赛作品。',
   },
   {
     id: 'plugins',
@@ -130,9 +130,9 @@ export const WORK: WorkItem[] = [
     id: 'goodjob',
     period: '2025',
     phase: 'mc',
-    title: 'Good Job',
-    sub: '2025 届 · Minecraft',
-    desc: 'Good Job 2025 届参与作品，这一届是 Minecraft 主题。',
+    title: 'Minecraft Good Job',
+    sub: '2025',
+    desc: '参赛作品。',
   },
   {
     id: 'ai',
@@ -173,8 +173,8 @@ export const WORK: WorkItem[] = [
 
 export const ABOUT: string[] = [
   '我是凛冬初十。2019 年开始做 Minecraft 原版内容——先是基岩版命令教程和地图，后来写数据包、插件和工具。',
-  '2020 到 2024 年基本泡在 Minecraft 社区：跟着社区打各种比赛、给服务器写功能，后来重心慢慢从玩转到做。',
-  '也独立做过服务端插件、数据可视化和杀戮尖塔 2 的模组；现在主要做 AI 应用和网页动效，顺带维护自己的 DeepSeek Harness 插件。Minecraft 已经退坑，B 站的教程停更但还留着。',
+  '2020 到 2024 年基本泡在 Minecraft 社区，参加过社区一些比赛，后来慢慢的淡出圈子了，但仍然热爱着这个游戏。',
+  '也独立做过服务端插件、数据可视化和杀戮尖塔 2 的模组等；现在主要做 AI 应用和网页动效，顺带维护自己的 DeepSeek Harness 插件。Minecraft 已经退坑，B 站的教程停更但还留着。',
   '写代码之外是二次元，看番、玩独立游戏和解谜游戏，最近长泡在《杀戮尖塔 2》里。',
 ]
 
@@ -278,7 +278,7 @@ export interface FriendItem {
 export const FRIENDS: FriendItem[] = [
   { label: 'underline.icu', note: 'underline 团队', href: 'http://underline.icu/' },
   { label: '蓝天工作室', note: 'bsc.meteormc.cn', href: 'https://bsc.meteormc.cn/' },
-  { label: 'ovo7.cc', note: 'shiroha7z · 终端式个人站', href: 'https://ovo7.cc/' },
+  { label: 'ovo7.cc', note: 'shiroha7z', href: 'https://ovo7.cc/' },
 ]
 
 export interface TermLine {
